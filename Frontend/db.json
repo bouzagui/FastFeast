@@ -1,0 +1,478 @@
+{
+  "restaurants": {
+    "McDonalds": {
+      "id": "mcdonalds",
+      "name": "McDonald's",
+      "description": "Popular fast-food chain serving burgers, fries, and more.",
+      "image_url": "https://glovo.dhmedia.io/image/stores-glovo/stores/df067052f39f0c1bdceabdaefd9899c9500c59f91edaf03244b32ef925019808?t=W3siYXV0byI6eyJxIjoibG93In19LHsicmVzaXplIjp7ImhlaWdodCI6MjI1fX1d",
+      "branches": [
+        {
+          "id": 101,
+          "address": "Avenue Mohammed V, Casablanca, Morocco",
+          "country": "Morocco",
+          "city": "Casablanca",
+          "location": {
+            "Latitude": 33.595558,
+            "Longitude": -7.61720
+          }
+        },
+        {
+          "id": 102,
+          "address": "Avenue Mohammed V, Casablanca",
+          "country": "Morocco",
+          "city": "Casablanca",
+          "location": {
+            "Latitude": 33.59948,
+            "Longitude": -7.61278
+          }
+        },
+        {
+          "id": 103,
+          "address": "Casa Port, Casablanca",
+          "country": "Morocco",
+          "city": "Casablanca",
+          "location": {
+            "Latitude": 33.595558,
+            "Longitude": -7.61720
+          }
+        },
+        {
+          "id": 104,
+          "address": "Bd Abou Chouaib Doukkali, Casablanca",
+          "country": "Morocco",
+          "city": "Casablanca",
+          "location": {
+            "Latitude": 33.56386,
+            "Longitude": -7.59401
+          }
+        },
+        {
+          "id": 105,
+          "address": "Av. 2 Mars, Casablanca 20250",
+          "country": "Morocco",
+          "city": "Casablanca",
+          "location": {
+            "Latitude": 33.57637,
+            "Longitude": -7.61550
+          }
+        },
+        {
+          "id": 106,
+          "address": "Centre Commercial Tachfine, Bd Ibn Tachfine, Casablanca",
+          "country": "Morocco",
+          "city": "Casablanca",
+          "location": {
+            "Latitude": 33.58699,
+            "Longitude": -7.59267
+          }
+        },
+        {
+          "id": 107,
+          "address": "53, rond Rond-point Mers Sultan, Place Mers Sultan, Casablanca 20250",
+          "country": "Morocco",
+          "city": "Casablanca",
+          "location": {
+            "Latitude": 33.58956,
+            "Longitude": -7.61829
+          }
+        },
+        {
+          "id": 108,
+          "address": "J82Q+F8J, Boulevard de la Corniche, Casablanca",
+          "country": "Morocco",
+          "city": "Casablanca",
+          "location": {
+            "Latitude": 33.60257,
+            "Longitude": -7.66148
+          }
+        },
+        {
+          "id": 109,
+          "address": "Angle Bd Modibo Keita et Allée de l'Aude, Av. de l'Hermitage, Casablanca",
+          "country": "Morocco",
+          "city": "Casablanca",
+          "location": {
+            "Latitude": 33.58699,
+            "Longitude": -7.59267
+          }
+        }
+      ],
+      "menu_categories": {
+        "Burgers": [
+          {
+            "id": "big-mac",
+            "name": "Big Mac",
+            "description": "Two all-beef patties, special sauce, lettuce, cheese, pickles, onions on a sesame seed bun",
+            "price": 6.99,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/db710e7bca43fe41f5547033e72e3a05ce8fbf9dd1075bedd86ef318cd148a81?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          },
+          {
+            "id": "big-tasty",
+            "name": "Big Tasty",
+            "description": "Large beef patty with special Big Tasty sauce, lettuce, tomato, and cheese",
+            "price": 7.49,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4080.png"
+          },
+          {
+            "id": "double-cheeseburger",
+            "name": "Double Cheeseburger",
+            "description": "Two beef patties, two slices of cheese, lettuce, pickles, onions, ketchup, and mustard on a sesame seed bun",
+            "price": 5.99,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4040.png"
+          },
+          {
+            "id": "mcroyal",
+            "name": "McRoyal",
+            "description": "Quarter pound beef patty with lettuce, tomatoes, mayo, and cheese",
+            "price": 6.49,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4066.png"
+          },
+          {
+            "id": "mcchicken",
+            "name": "McChicken™",
+            "description": "Crispy chicken breast coated in breading, topped with lettuce and mayonnaise, served on a sesame seed bun",
+            "price": 3.99,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4100.png"
+          }
+        ],
+        "Happy Meal™": [
+          {
+            "id": "happy-meal-hamburger",
+            "name": "Happy Meal™ Hamburger",
+            "description": "A classic hamburger with a beef patty, pickles, onions, ketchup, and mustard on a sesame seed bun.",
+            "price": 3.99,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4003.png"
+          },
+          {
+            "id": "happy-meal-cheeseburger",
+            "name": "Happy Meal™ Cheeseburger",
+            "description": "A cheeseburger featuring a beef patty, a slice of cheese, pickles, onions, ketchup, and mustard on a sesame seed bun.",
+            "price": 4.29,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4013.png"
+          },
+          {
+            "id": "happy-meal-chickenburger",
+            "name": "Happy Meal™ Chickenburger",
+            "description": "A crispy chicken sandwich with lettuce and mayonnaise on a sesame seed bun.",
+            "price": 4.49,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4032.png"
+          }
+        ],
+        "Desserts": [
+          {
+            "id": "mcflurry-baci",
+            "name": "McFlurry™ Baci®",
+            "description": "Creamy vanilla soft serve mixed with Baci® chocolate pieces.",
+            "price": 3.99,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-9329.png"
+          },
+          {
+            "id": "mcflurry-mms",
+            "name": "McFlurry™ M&M's®",
+            "description": "Vanilla soft serve blended with colorful M&M's® candies.",
+            "price": 3.99,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4710.png"
+          },
+          {
+            "id": "mcflurry-nature",
+            "name": "McFlurry™ Nature",
+            "description": "A refreshing blend of vanilla soft serve with natural ingredients.",
+            "price": 3.49,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4712.png"
+          },
+          {
+            "id": "mcflurry-kitkat",
+            "name": "McFlurry™ KitKat®",
+            "description": "Vanilla soft serve mixed with crunchy KitKat® chocolate pieces.",
+            "price": 3.99,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4713.png"
+          },
+          {
+            "id": "mcflurry-oreo",
+            "name": "McFlurry™ Oréo®",
+            "description": "Creamy vanilla soft serve swirled with crushed Oreo® cookies.",
+            "price": 3.99,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4868.png"
+          },
+          {
+            "id": "strawberry-donut",
+            "name": "Strawberry Donut",
+            "description": "A fluffy donut filled with sweet strawberry jam and topped with icing.",
+            "price": 1.49,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-5088.png"
+          }
+        ],
+        "Drinks": [
+          {
+            "id": "strawberry-milkshake",
+            "name": "Strawberry Milkshake",
+            "description": "Creamy milkshake blended with strawberry flavor and topped with whipped cream.",
+            "price": 3.49,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4723.png"
+          },
+          {
+            "id": "vanilla-milkshake",
+            "name": "Vanilla Milkshake",
+            "description": "Rich and creamy vanilla milkshake topped with whipped cream.",
+            "price": 3.49,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4728.png"
+          },
+          {
+            "id": "small-coca-cola",
+            "name": "Small Coca Cola",
+            "description": "Refreshing Coca-Cola served cold in a small cup.",
+            "price": 1.99,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4580.png"
+          },
+          {
+            "id": "small-sprite",
+            "name": "Small Sprite",
+            "description": "Crisp and refreshing Sprite served cold in a small cup.",
+            "price": 1.99,
+            "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4592.png"
+          }
+        ]
+      }
+    },
+    "KFC": {
+      "id": "kfc",
+      "name": "KFC",
+      "description": "Crispy fried chicken and signature flavors",
+      "image_url": "https://tb-static.uber.com/prod/image-proc/processed_images/f57fb461cfafbbb63b57e8a50c81c5d0/c9252e6c6cd289c588c3381bc77b1dfc.jpeg",
+      "branches": [
+        {
+          "id": 201,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Bd d'Anfa, Casablanca 20250",
+          "location": { "latitude": 33.59318, "longitude": -7.63196 }
+        },
+        {
+          "id": 202,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Av. 2 Mars, Casablanca 20250",
+          "location": { "latitude": 33.57567, "longitude": -7.61569 }
+        }
+      ],
+      "menu_categories": {
+        "Chicken": [
+          {
+            "id": "original-recipe-chicken",
+            "name": "Original Recipe Chicken",
+            "description": "Fried chicken pieces seasoned with KFC's secret blend of 11 herbs and spices.",
+            "price": 3.49,
+            "image_url": "https://www.hayaku.ma/cdn/shop/files/9_69dc7224-e207-4e63-8076-cfaea02a9edf_1024x1024@2x.jpg?v=1685802771"
+          },
+          {
+            "id": "extra-crispy-chicken",
+            "name": "Extra Crispy Chicken",
+            "description": "Crispy fried chicken with a crunchy coating for extra flavor.",
+            "price": 3.99,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/b326f592a9eb2265d18ada1a5debc78b7be5606385c4b80ce96557b93e501172?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          },
+          {
+            "id": "chicken-sandwich",
+            "name": "Chicken Sandwich",
+            "description": "Crispy chicken fillet served on a bun with pickles and mayo.",
+            "price": 4.99,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/a595c9c5e9a7ca3d53fecec29770d533e65fe6d07481c89c327a8256b071f992?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          },
+          {
+            "id": "16-pcs-bucket",
+            "name": "16 Pcs Bucket",
+            "description": "16 Pcs Chicken, 1 Family Fries, Drink of your choice",
+            "price": 5.00,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/b326f592a9eb2265d18ada1a5debc78b7be5606385c4b80ce96557b93e501172?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          }
+        ],
+        "Sandwiches": [
+          {
+            "id": "mighty-zinger",
+            "name": "Mighty Zinger",
+            "description": "2 chicken breast fillets with KFC's Spicy Zinger Recipe, cheese, lettuce, spicy mayo in a round bun.",
+            "price": 5.99,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/a2177165b0af6ae9c62ec8a860a62837f8a871665d6048e5046af594bc470ee9?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          },
+          {
+            "id": "supreme-sandwich",
+            "name": "Supreme Sandwich",
+            "description": "Crispy chicken fillet with fresh lettuce, tomato, and mayonnaise on a toasted bun.",
+            "price": 4.99,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/2850cbc13f197a190b78545a877d42028f1c9decea9547703a48695e5fb88aac?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          },
+          {
+            "id": "chicken-zinger",
+            "name": "Chicken Zinger",
+            "description": "Spicy chicken fillet with lettuce and mayonnaise served in a bun.",
+            "price": 5.49,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/a595c9c5e9a7ca3d53fecec29770d533e65fe6d07481c89c327a8256b071f992?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          },
+          {
+            "id": "dynamite-burger",
+            "name": "Dynamite Burger",
+            "description": "A spicy chicken burger with jalapeños, cheese, and special sauce.",
+            "price": 6.49,
+            "image_url": "https://glovo.dhmedia.io//menus-glovo/products/9818d1f82fa22e30b30bd51fca010c3b76e0ec35535ab832c0ef22b2211544d2?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          }
+        ],
+        "Big Box Meals": [
+          {
+            "id": "mighty-zinger-box",
+            "name": "Mighty Zinger Box",
+            "description": "A box meal featuring the Mighty Zinger sandwich, crispy fries, and a drink.",
+            "price": 9.99,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/791109f51720ef2176134f3e219131b3d85324c0524966a00f0ade91525335d2?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          }
+        ]
+      }
+    },
+    "Piza Hut": {
+      "id": "pizza hut",
+      "name": "Pizza Hut",
+      "description": "Crispy fried chicken and signature flavors",
+      "image_url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg0nfnVUyEw2DkdCDbNRV5ElbxYaJOEakUcdK5-BoKcxmvsGBUu0uU1J014AAUU6BGGYGToAkFCeDMvW-o6jGeoBjh3gKgURCQv1TWhs6ueWtsJlsbIDAYxdH7kdPyeS6wNoqGVGSHBJd4/s800/pizzahutindonesia.jpg",
+      "branches": [
+        {
+          "id": 201,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "67 Bd Moulay Youssef, Casablanca 20250",
+          "location": { "latitude": 33.59454, "longitude": -7.62913 }
+        },
+        {
+          "id": 202,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "207 Bd de la Résistance, Casablanca 20490",
+          "location": { "latitude": 33.58347, "longitude": -7.61383 }
+        }
+      ],
+      "menu_categories": {
+        "Chicken": [
+          {
+            "id": "original-recipe-chicken",
+            "name": "Original Recipe Chicken",
+            "description": "Fried chicken pieces seasoned with KFC's secret blend of 11 herbs and spices.",
+            "price": 3.49,
+            "image_url": "https://www.hayaku.ma/cdn/shop/files/9_69dc7224-e207-4e63-8076-cfaea02a9edf_1024x1024@2x.jpg?v=1685802771"
+          },
+          {
+            "id": "extra-crispy-chicken",
+            "name": "Extra Crispy Chicken",
+            "description": "Crispy fried chicken with a crunchy coating for extra flavor.",
+            "price": 3.99,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/b326f592a9eb2265d18ada1a5debc78b7be5606385c4b80ce96557b93e501172?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          },
+          {
+            "id": "chicken-sandwich",
+            "name": "Chicken Sandwich",
+            "description": "Crispy chicken fillet served on a bun with pickles and mayo.",
+            "price": 4.99,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/a595c9c5e9a7ca3d53fecec29770d533e65fe6d07481c89c327a8256b071f992?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          },
+          {
+            "id": "16-pcs-bucket",
+            "name": "16 Pcs Bucket",
+            "description": "16 Pcs Chicken, 1 Family Fries, Drink of your choice",
+            "price": 5.00,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/b326f592a9eb2265d18ada1a5debc78b7be5606385c4b80ce96557b93e501172?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          }
+        ],
+        "Sandwiches": [
+          {
+            "id": "mighty-zinger",
+            "name": "Mighty Zinger",
+            "description": "2 chicken breast fillets with KFC's Spicy Zinger Recipe, cheese, lettuce, spicy mayo in a round bun.",
+            "price": 5.99,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/a2177165b0af6ae9c62ec8a860a62837f8a871665d6048e5046af594bc470ee9?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          },
+          {
+            "id": "supreme-sandwich",
+            "name": "Supreme Sandwich",
+            "description": "Crispy chicken fillet with fresh lettuce, tomato, and mayonnaise on a toasted bun.",
+            "price": 4.99,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/2850cbc13f197a190b78545a877d42028f1c9decea9547703a48695e5fb88aac?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          },
+          {
+            "id": "chicken-zinger",
+            "name": "Chicken Zinger",
+            "description": "Spicy chicken fillet with lettuce and mayonnaise served in a bun.",
+            "price": 5.49,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/a595c9c5e9a7ca3d53fecec29770d533e65fe6d07481c89c327a8256b071f992?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          },
+          {
+            "id": "dynamite-burger",
+            "name": "Dynamite Burger",
+            "description": "A spicy chicken burger with jalapeños, cheese, and special sauce.",
+            "price": 6.49,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/9818d1f82fa22e30b30bd51fca010c3b76e0ec35535ab832c0ef22b2211544d2?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          }
+        ],
+        "Big Box Meals": [
+          {
+            "id": "mighty-zinger-box",
+            "name": "Mighty Zinger Box",
+            "description": "A box meal featuring the Mighty Zinger sandwich, crispy fries, and a drink.",
+            "price": 9.99,
+            "image_url": "https://glovo.dhmedia.io/image/menus-glovo/products/791109f51720ef2176134f3e219131b3d85324c0524966a00f0ade91525335d2?t=W3siYXZpZiI6eyJxIjoibG93In19LHsicmVzaXplIjp7IndpZHRoIjoyNjAsImhlaWdodCI6MjYwfX1d"
+          }
+        ]
+      }
+    },
+    "Burger King": {
+      "id": 4,
+      "name": "Burger King",
+      "image_url": "https://www.allrecipes.com/thmb/xVGw1xqe1jDcc9jYmNZkY621atQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/ar-burger-king-getty-4x3-2-25772f696b734be5b78cb73cc4529ec7.jpg",
+      "address": "Corniche Ain Diab, Casablanca, Morocco"
+    },
+    "Domino's Pizza": {
+      "id": 5,
+      "name": "Domino's Pizza",
+      "image_url": "https://www.nomadia-group.com/wp-content/uploads/2022/09/Hero-DOMINOSPIZZA-success-story-success-story-1.png",
+      "address": "Avenue Al Massira Al Khadra, Agadir, Morocco"
+    },
+    "Chrono Pizza": {
+      "id": 6,
+      "name": "Chrono Pizza",
+      "image_url": "https://img.restaurantguru.com/w550/h367/rf75-Chrono-Pizza-emblem-2021-09-1.jpg",
+      "address": "Avenue Moulay Rachid, Tangier, Morocco"
+    },
+    "Be Work": {
+      "id": 7,
+      "name": "Be Work",
+      "image_url": "https://www.moroccomall.ma/images/logos/restaurants/BEWOK-Moroccomall-300x300.jpg",
+      "address": "Place Al Amal, Oujda, Morocco"
+    },
+    "Tacos de Lyon": {
+      "id": 8,
+      "name": "Tacos de Lyon",
+      "image_url": "https://aeriamall.com/backend/uploads/TACOS_4f3bb6d0b0.png",
+      "address": "Boulevard Mohammed VI, Fes, Morocco"
+    },
+    "Pizza Hub": {
+      "id": 9,
+      "name": "Pizza Hub",
+      "image_url": "https://www.kylescreative.ca/assets/img/Pizzahub1.jpg",
+      "address": "Avenue des FAR, Meknes, Morocco"
+    },
+    "Taco Bell": {
+      "id": 10,
+      "name": "Taco Bell",
+      "image_url": "https://assets.turbologo.com/blog/fr/2020/02/19133812/Taco-Bell.png",
+      "address": "Avenue Mohammed VI, Casablanca, Morocco"
+    },
+    "Quick": {
+      "id": 11,
+      "name": "Quick",
+      "image_url": "https://static.actu.fr/uploads/2021/08/adobestock-448927659-editorial-use-only.jpeg",
+      "address": "Boulevard Zerktouni, Marrakech, Morocco"
+    },
+    "Big M": {
+      "id": 12,
+      "name": "Big M",
+      "image_url": "https://bigm-burger.fr/wp-content/uploads/agile-store-locator/Logo/sans-titre-1-628f96bd2b4c8.jpg",
+      "address": "Corniche Ain Diab, Casablanca, Morocco"
+    }
+  }
+}
