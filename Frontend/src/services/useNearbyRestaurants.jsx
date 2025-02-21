@@ -32,29 +32,40 @@ const useNearbyRestaurants = () => {
 
     // Ensure allRestaurants is valid before using .flatMap()
     const nearbyRestaurantsList = Object.values(allRestaurants)
-      .flatMap(restaurant => 
-        restaurant.branches 
-          ? restaurant.branches.map(branch => ({
-              id: `${restaurant.id}-${branch.id}`,
-              name: restaurant.name,
-              description: restaurant.description,
-              image_url: restaurant.image_url,
-              address: branch.address,
-              distance: getDistance(
-                { latitude: userLocation.latitude, longitude: userLocation.longitude },
-                { latitude: branch.location?.Latitude || branch.location?.latitude, 
-                  longitude: branch.location?.Longitude || branch.location?.longitude }
-              )
-            }))
-          : []
-      )
-      .filter(restaurant => restaurant.distance <= 10) // Filter restaurants within 10km
-      .sort((a, b) => a.distance - b.distance); // Sort by distance
+  .map(restaurant => {
+    if (!restaurant.branches || restaurant.branches.length === 0) return null;
 
-    console.log("Nearby Restaurants:", nearbyRestaurantsList);
+    // Find the nearest branch for each restaurant
+    const nearestBranch = restaurant.branches.reduce((closest, branch) => {
+      const branchDistance = getDistance(
+        { latitude: userLocation.latitude, longitude: userLocation.longitude },
+        { latitude: branch.location?.Latitude || branch.location?.latitude, 
+          longitude: branch.location?.Longitude || branch.location?.longitude }
+      );
+
+      if (!closest || branchDistance < closest.distance) {
+        return {
+          id: `${restaurant.id}-${branch.id}`,
+          name: restaurant.name,
+          description: restaurant.description,
+          image_url: restaurant.image_url,
+          address: branch.address,
+          distance: branchDistance
+        };
+      }
+
+      return closest;
+    }, null);
+
+    return nearestBranch;
+  })
+  .filter(Boolean) // Remove null values
+  .filter(restaurant => restaurant.distance <= 10) // Keep only within 10km
+  .sort((a, b) => a.distance - b.distance); // Sort by distance
+
     setNearbyRestaurants(nearbyRestaurantsList);
     setLoading(false);
-  }, [allRestaurants, restaurantsLoading, restaurantsError]);
+  }, [restaurantsLoading, restaurantsError, allRestaurants]);
 
   return { restaurants: nearbyRestaurants, loading, error };
 };
