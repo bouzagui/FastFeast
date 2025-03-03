@@ -1,15 +1,15 @@
 import { UtensilsCrossed } from 'lucide-react';
-// import navbarAboutPage from '../../assets/';
+import navbarAboutPage from '../../../assets/navbar-aboutpage.png';
 
 export default function AboutHero() {
   return (
     <div className="relative bg-white">
       <div className="relative h-[350px] w-full overflow-hidden">
-        {/* <img
+        <img
           src={navbarAboutPage}
           alt="A welcoming dinner table with food and decorations"
           className="object-cover w-full h-full"
-        /> */}
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
       </div>
       <div className="relative flex flex-col items-center justify-center text-center px-6 bg-white py-12 shadow-lg rounded-lg -mt-12">

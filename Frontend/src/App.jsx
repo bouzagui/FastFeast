@@ -4,12 +4,12 @@ import HomePage from "./pages/HomePage";
 import Restaurants from "./pages/RestaurantsPage";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MenuPage from "./pages/MenuPage/";
-import AboutPage from "./components/About/AboutPage";
-import FAQSection from "./components/FAQ/FAQPage";
-import ContactPage from "./components/Contact/ContactPage";
-import TermsConditions from "./components/TermsConditions/TermsConditions";
-import PrivacyPolicy from "./components/PrivacyPolicy/PrivacyPolicy";
-import CookiesPolicy from "./components/CookiesPolicy/CookiesPolicy";
+import AboutPage from "./components/Footer/About/AboutPage";
+import FAQSection from "./components/Footer/FAQ/FAQPage";
+import ContactPage from "./components/Footer/Contact/ContactPage";
+import TermsConditions from "./components/Footer/TermsConditions/TermsConditions";
+import PrivacyPolicy from "./components/Footer/PrivacyPolicy/PrivacyPolicy";
+import CookiesPolicy from "./components/Footer/CookiesPolicy/CookiesPolicy";
 
 
 const clerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;

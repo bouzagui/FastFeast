@@ -6,7 +6,7 @@ export default function Footer() {
     <div>
       <footer className="relative w-full bg-[#1a202c] text-gray-300 mt-24 mb-0">
         {/* Curved top shape */}
-        {/* <div className="absolute -top-24 left-0 w-full overflow-hidden">
+        <div className="absolute -top-24 left-0 w-full overflow-hidden">
           <svg
             viewBox="0 0 1200 120"
             preserveAspectRatio="none"
@@ -17,7 +17,7 @@ export default function Footer() {
               d="M0,0 C300,60 900,60 1200,0 L1200,120 L0,120 Z"
             />
           </svg>
-        </div> */}
+        </div>
         {/* Footer content */}
         <div className="container mx-auto pt-16 pb-8">
           <div className="flex justify-around gap-4 sm:gap-2">
