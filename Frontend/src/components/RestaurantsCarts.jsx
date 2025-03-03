@@ -1,16 +1,33 @@
-import React from "react";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const RestaurantCards = ({ restaurant }) => {
+  // const [counter, setCounter] = useState(0);
+
+  // const UpdateUp = () => {
+  //   setCounter(prev => prev + 1);
+  // };
+
+  // const UpdateDown = () => {
+  //   if (counter === 0) {
+  //     return;
+  //   } else {
+  //     setCounter(prev => prev - 1);
+  //   }
+  //   setCounter(prev => prev - 1);
+  // }
+
   if (!restaurant) {
     return null; // Or return a placeholder/skeleton component
   }
+  // console.log("this is restaurant id:", restaurant.id);
 
   return (
-    <div className="border rounded-lg p-4 shadow-md mb-4 hover:shadow-lg transition-shadow">
+    <Link to={`/MenuPage/${restaurant.id}`} className="border rounded-lg p-4 shadow-md mb-4 hover:shadow-lg transition-shadow">
       <img
         src={restaurant.image_url || "/api/placeholder/400/200"}
         alt={restaurant?.name || "Restaurant"}
-        className="w-full h-40 object-cover rounded-md mb-3"
+        className="w-full h-40 object-center hover:object-scale-down hover-scale-x-200 duration-100 scale-100 rounded-md mb-2"
       />
       <h2 className="text-xl font-bold mb-2">
         {restaurant?.name || "Restaurant Name"}
@@ -39,7 +56,7 @@ const RestaurantCards = ({ restaurant }) => {
               d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
             />
           </svg>
-          <p className="text-gray-700">{restaurant.address}</p>
+          <p className="text-gray-700 relative">{restaurant.address}</p>
         </div>
       )}
       {typeof restaurant?.distance === 'number' && (
@@ -47,7 +64,12 @@ const RestaurantCards = ({ restaurant }) => {
           {restaurant.distance.toFixed(1)} km away
         </p>
       )}
-    </div>
+      {/* <div className="flex items-center ">
+        <p>{counter}</p>
+        <button onClick={UpdateUp}>+</button>
+        <button onClick={UpdateDown}>-</button>
+      </div> */}
+    </Link>
   );
 };
 

@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/restaurants";
 
-export default function useRestaurants() {
+export default function useRestaurants(id) {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,14 +12,13 @@ export default function useRestaurants() {
     const fetchRestaurants = async () => {
       try {
         const response = await axios.get(API_URL);
-        setRestaurants(response.data || []); // ✅ Ensure data exists
+        setRestaurants(response.data || []);
       } catch (err) {
         setError("Failed to load restaurants");
       } finally {
         setLoading(false);
       }
     };
-    // googleMaps();
     fetchRestaurants();
   }, []);
 

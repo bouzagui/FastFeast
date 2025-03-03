@@ -133,6 +133,27 @@
             "description": "Crispy chicken breast coated in breading, topped with lettuce and mayonnaise, served on a sesame seed bun",
             "price": 3.99,
             "image_url": "https://d25cgfcdeti393.cloudfront.net/JF-4100.png"
+          },
+          {
+            "id": "double big mac",
+            "name": "Double Big Mac",
+            "description": "four all-beef patties, special sauce, lettuce, cheese, pickles, onions on a sesame seed bun",
+            "price": 8.99,
+            "image_url": "https://s7d1.scene7.com/is/image/mcdonalds/mcdonalds-produit-bigmac-double-boeuf-salade-fromage:nutrition-calculator-tile?wid=472&hei=472&dpr=off"
+          },
+          {
+            "id": "double testy",
+            "name": "Double Testy",
+            "description": "Two medium beef patties with special Big Tasty sauce, lettuce, tomato, and cheese",
+            "price": 8.49,
+            "image_url": "https://www.hayaku.ma/cdn/shop/files/rn-image_picker_lib_temp_cec72643-29c7-4da2-a928-30d50acaaebe.png?v=1699804118"
+          },
+          {
+            "id": "double-royal",
+            "name": "Double Royal",
+            "description": "Two quarter pound beef patties with lettuce, tomatoes, mayo, and cheese",
+            "price": 7.49,
+            "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu0lPl1xnS0uwJqRMNfcGNjk37AjhLMa6k98FK2-mbvRACtIECxDf_g_WNlJyp4Juy2Kg&usqp=CAU"
           }
         ],
         "Happy Meal™": [
@@ -334,14 +355,14 @@
       "image_url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg0nfnVUyEw2DkdCDbNRV5ElbxYaJOEakUcdK5-BoKcxmvsGBUu0uU1J014AAUU6BGGYGToAkFCeDMvW-o6jGeoBjh3gKgURCQv1TWhs6ueWtsJlsbIDAYxdH7kdPyeS6wNoqGVGSHBJd4/s800/pizzahutindonesia.jpg",
       "branches": [
         {
-          "id": 201,
+          "id": 301,
           "city": "Casablanca",
           "country": "Morocco",
           "address": "67 Bd Moulay Youssef, Casablanca 20250",
           "location": { "latitude": 33.59454, "longitude": -7.62913 }
         },
         {
-          "id": 202,
+          "id": 302,
           "city": "Casablanca",
           "country": "Morocco",
           "address": "207 Bd de la Résistance, Casablanca 20490",
@@ -424,55 +445,625 @@
       "id": 4,
       "name": "Burger King",
       "image_url": "https://www.allrecipes.com/thmb/xVGw1xqe1jDcc9jYmNZkY621atQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/ar-burger-king-getty-4x3-2-25772f696b734be5b78cb73cc4529ec7.jpg",
-      "address": "Corniche Ain Diab, Casablanca, Morocco"
+      "description": "Burger King is a fast-food chain known for flame-grilled burgers and the Whopper.",
+      "branches": [
+        {
+          "id": 401,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "92 Bd d'Anfa, Casablanca 20020",
+          "location": { "latitude": 33.594295, "longitude": -7.63292 }
+        },
+        {
+          "id": 402,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "119 Bd Abdelmoumen, Casablanca 20000",
+          "location": { "latitude": 33.57844, "longitude": -7.62539 }
+        },
+        {
+          "id": 403,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Rue Abou Salt Andaloussi, Casablanca 20250",
+          "location": { "latitude": 33.58639, "longitude": -7.63734 }
+        },
+        {
+          "id": 404,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Marina Mall, Etage, 2 Bd Sidi Mohamed Ben Abdellah, Casablanca",
+          "location": { "latitude": 33.60722, "longitude": -7.62029 }
+        },
+        {
+          "id": 405,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Angle Av. 2 Mars, Casablanca 20250",
+          "location": { "latitude": 33.57502, "longitude": -7.61543 }
+        },
+        {
+          "id": 406,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Shell Station, N11, Route Nouacer, Exit, Casablanca",
+          "location": { "latitude": 33.50969, "longitude": -7.63016 }
+        },
+        {
+          "id": 407,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "JF35+HCF, Casablanca 20250",
+          "location": { "latitude": 33.60878, "longitude": -7.54073 }
+        },
+        {
+          "id": 408,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Station Total Energies, Relais Al Baida, Bouskoura Ville Verte, Autoroute vers Rabat, Bouskoura",
+          "location": { "latitude": 33.51284, "longitude": -7.60763 }
+        }
+      ],
+      "menu_categories": {
+        "Burgers": [
+          {
+            "id": "whopper",
+            "name": "Whopper",
+            "description": "A juicy and flavorful burger with a crispy patty, lettuce, tomato, and special sauce.",
+            "price": 5.99,
+            "image_url": "https://www.burgerking.com/images/recipes/whopper.jpg"
+          },
+          {
+            "id": "cheeseburger",
+            "name": "Cheeseburger",
+            "description": "A classic cheeseburger with a juicy patty, lettuce, tomato, and special sauce.",
+            "price": 4.99,
+            "image_url": "https://www.burgerking.com/images/recipes/cheeseburger.jpg"
+          },
+          {
+            "id": "double-cheeseburger",
+            "name": "Double Cheeseburger",
+            "description": "Two juicy patties with special sauce, lettuce, tomato, and cheese.",
+            "price": 6.99,
+            "image_url": "https://www.burgerking.com/images/recipes/double-cheeseburger.jpg"
+          },
+          {
+            "id": "double-whopper",
+            "name": "Double Whopper",
+            "description": "Two juicy patties with special sauce, lettuce, tomato, and special sauce.",
+            "price": 7.99,
+            "image_url": "https://www.burgerking.com/images/recipes/double-whopper.jpg"
+          },
+          {
+            "id": "double-whopper-with-cheese",
+            "name": "Double Whopper with Cheese",
+            "description": "Two juicy patties with special sauce, lettuce, tomato, and cheese.",
+            "price": 8.99,
+            "image_url": "https://www.burgerking.com/images/recipes/double-whopper-with-cheese.jpg"
+          },
+          {
+            "id": "mcchicken",
+            "name": "McChicken",
+            "description": "Crispy chicken breast coated in breading, topped with lettuce and mayonnaise, served on a sesame seed bun",
+            "price": 3.99,
+            "image_url": "https://www.burgerking.com/images/recipes/mcchicken.jpg"
+          },
+          {
+            "id": "double-mcchicken",
+            "name": "Double McChicken",
+            "description": "Two juicy patties with special sauce, lettuce, tomato, and cheese.",
+            "price": 6.99,
+            "image_url": "https://www.burgerking.com/images/recipes/double-mcchicken.jpg"
+          }
+        ],
+        "Fries": [
+          {
+            "id": "fries",
+            "name": "Fries",
+            "description": "Crispy and golden fries served with ketchup.",
+            "price": 2.99,
+            "image_url": "https://www.burgerking.com/images/recipes/fries.jpg"
+          }
+        ],
+        "Drinks": [
+          {
+            "id": "coke",
+            "name": "Coke",
+            "description": "Coke",
+            "price": 1.99,
+            "image_url": "https://www.burgerking.com/images/recipes/coke.jpg"
+          },
+          {
+            "id": "sprite",
+            "name": "Sprite",
+            "description": "Sprite",
+            "price": 1.99,
+            "image_url": "https://www.burgerking.com/images/recipes/sprite.jpg"
+          },
+          {
+            "id": "fanta",
+            "name": "Fanta",
+            "description": "Fanta",
+            "price": 1.99,
+            "image_url": "https://www.burgerking.com/images/recipes/fanta.jpg"
+          },
+          {
+            "id": "haway",
+            "name": "Haway",
+            "description": "Haway",
+            "price": 1.99,
+            "image_url": "https://www.burgerking.com/images/recipes/haway.jpg"
+          },
+          {
+            "id": "pepsi",
+            "name": "Pepsi",
+            "description": "Pepsi",
+            "price": 1.99,
+            "image_url": "https://www.burgerking.com/images/recipes/pepsi.jpg"
+          }
+        ]
+      }
     },
     "Domino's Pizza": {
       "id": 5,
       "name": "Domino's Pizza",
       "image_url": "https://www.nomadia-group.com/wp-content/uploads/2022/09/Hero-DOMINOSPIZZA-success-story-success-story-1.png",
-      "address": "Avenue Al Massira Al Khadra, Agadir, Morocco"
+      "description": "Domino's Pizza is a global pizza chain known for fast delivery and a variety of delicious pizzas.",
+      "branches": [
+        {
+          "id": 501,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "112 Rue Al Fourate, Casablanca 20250",
+          "location": { "latitude": 33.58462, "longitude": -7.64409 }
+        },
+        {
+          "id": 502,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "bd Moulay Idriss 1er ang, rue de l'Isére, Casablanca 20490",
+          "location": { "latitude": 33.57465, "longitude": -7.61125 }
+        },
+        {
+          "id": 503,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Center tachfin, Casablanca 20250",
+          "location": { "latitude": 33.58791, "longitude": -7.59214 }
+        },
+        {
+          "id": 504,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "257 Bd Ghandi, Casablanca 20390",
+          "location": { "latitude": 33.57013, "longitude": -7.64250 }
+        },
+        {
+          "id": 505,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "F9J7+F3M, Bouskoura, Casablanca",
+          "location": { "latitude": 33.48737, "longitude": -7.63857 }
+        },
+        {
+          "id": 506,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Morocco Mall, Food court Angle Boulevard Sidi Abderrahmane، Boulevard de Biarritz, Casablanca 20000",
+          "location": { "latitude": 33.58255, "longitude": -7.70782 }
+        },
+        {
+          "id": 507,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "92 Bd d'Anfa, Casablanca 20020",
+          "location": { "latitude": 33.594295, "longitude": -7.63292 }
+        },
+        {
+          "id": 508,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "92 Bd d'Anfa, Casablanca 20020",
+          "location": { "latitude": 33.594295, "longitude": -7.63292 }
+        }
+      ],
+      "menu_categories": {
+        "Pizza": [
+          {
+            "id": 1,
+            "name": "Pizza",
+            "items": [
+              {
+                "id": 1,
+                "name": "Margherita",
+                "description": "Classic Italian pizza with tomato sauce, mozzarella cheese, and basil",
+                "price": 10.99
+              },
+              {
+                "id": 2,
+                "name": "Pepperoni",
+                "description": "Pizza with tomato sauce, mozzarella cheese, and sliced pepperoni",
+                "price": 12.99
+              },
+              {
+                "id": 3,
+                "name": "Hawaiian",
+                "description": "Pizza with tomato sauce, mozzarella cheese, ham, and pineapple",
+                "price": 14.99
+              },
+              {
+                "id": 4,
+                "name": "Veggie",
+                "description": "Pizza with tomato sauce, mozzarella cheese, and a variety of vegetables",
+                "price": 11.99
+              }
+            ]
+          }
+        ],
+        "Drinks": [
+          {
+            "id": 1,
+            "name": "Coke",
+            "items": [
+              {
+                "id": 1,
+                "name": "Coka Cola",
+                "description": "Coke",
+                "price": 1.99
+              },
+              {
+                "id": 2,
+                "name": "Haway",
+                "description": "Coke",
+                "price": 1.99
+              },
+              {
+                "id": 3,
+                "name": "Fanta",
+                "description": "Coke",
+                "price": 1.99
+              },
+              {
+                "id": 4,
+                "name": "Sprite",
+                "description": "Coke",
+                "price": 1.99
+              },
+              {
+                "id": 5,
+                "name": "Ice Tea",
+                "description": "Coke",
+                "price": 1.99
+              },
+              {
+                "id": 6,
+                "name": "Water",
+                "description": "aquafine",
+                "price": 1.99
+              },
+              {
+                "id": 7,
+                "name": "Juice",
+                "description": "Coke",
+                "price": 1.99
+              },
+              {
+                "id": 8,
+                "name": "Soft Drinks",
+                "description": "Coke",
+                "price": 1.99
+              }
+            ]
+          }
+        ]
+      }
     },
     "Chrono Pizza": {
       "id": 6,
       "name": "Chrono Pizza",
       "image_url": "https://img.restaurantguru.com/w550/h367/rf75-Chrono-Pizza-emblem-2021-09-1.jpg",
-      "address": "Avenue Moulay Rachid, Tangier, Morocco"
+      "description": "Fresh, fast, and flavorful! Enjoy delicious pizzas made with premium ingredients in no time.",
+      "branches": [
+        {
+          "id": 601,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "76 Bd d'Anfa, Casablanca 20250",
+          "location": { "latitude": 33.59461, "longitude": -7.63143 }
+        },
+        {
+          "id": 602,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Bd Haj Fateh, Casablanca 20000",
+          "location": { "latitude": 33.54199, "longitude": -7.67484 }
+        },
+        {
+          "id": 603,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Av hachimi Al Filali, angle lala fatima zeroual, Casablanca 20000",
+          "location": { "latitude": 33.52086, "longitude": -7.61414 }
+        }
+      ],
+      "menu_categories": {
+        "Pizza": [
+          {
+            "id": 1,
+            "name": "Pizza",
+            "items": [
+              {
+                "id": 1,
+                "name": "Margherita",
+                "description": "Classic Italian pizza with tomato sauce, mozzarella cheese, and basil",
+                "price": 10.99
+              },
+              {
+                "id": 2,
+                "name": "Pepperoni",
+                "description": "Pizza with tomato sauce, mozzarella cheese, and sliced pepperoni",
+                "price": 12.99
+              },
+              {
+                "id": 3,
+                "name": "Hawaiian",
+                "description": "Pizza with tomato sauce, mozzarella cheese, ham, and pineapple",
+                "price": 14.99
+              },
+              {
+                "id": 4,
+                "name": "Veggie",
+                "description": "Pizza with tomato sauce, mozzarella cheese, and a variety of vegetables",
+                "price": 11.99
+              }
+            ]
+          }
+        ],
+        "Drinks": [
+          {
+            "id": 1,
+            "name": "Coke",
+            "items": [
+              {
+                "id": 1,
+                "name": "Coka Cola",
+                "description": "Coke",
+                "price": 1.99
+              },
+              {
+                "id": 2,
+                "name": "Haway",
+                "description": "Coke",
+                "price": 1.99
+              },
+              {
+                "id": 3,
+                "name": "Fanta",
+                "description": "Coke",
+                "price": 1.99
+              },
+              {
+                "id": 4,
+                "name": "Sprite",
+                "description": "Coke",
+                "price": 1.99
+              },
+              {
+                "id": 5,
+                "name": "Ice Tea",
+                "description": "Coke",
+                "price": 1.99
+              },
+              {
+                "id": 6,
+                "name": "Water",
+                "description": "aquafine",
+                "price": 1.99
+              },
+              {
+                "id": 7,
+                "name": "Juice",
+                "description": "Coke",
+                "price": 1.99
+              },
+              {
+                "id": 8,
+                "name": "Soft Drinks",
+                "description": "Coke",
+                "price": 1.99
+              }
+            ]
+          }
+        ],
+        "Desserts": [
+          {
+            "id": 1,
+            "name": "Ice Cream",
+            "items": [
+              {
+                "id": 1,
+                "name": "Vanilla",
+                "description": "Ice Cream",
+                "price": 2.99
+              },
+              {
+                "id": 2,
+                "name": "Chocolate",
+                "description": "Ice Cream",
+                "price": 2.99
+              },
+              {
+                "id": 3,
+                "name": "Strawberry",
+                "description": "Ice Cream",
+                "price": 2.99
+              }
+            ]
+          }
+        ]
+      }
     },
-    "Be Work": {
+    "Be Wok": {
       "id": 7,
-      "name": "Be Work",
+      "name": "Be Wok",
       "image_url": "https://www.moroccomall.ma/images/logos/restaurants/BEWOK-Moroccomall-300x300.jpg",
-      "address": "Place Al Amal, Oujda, Morocco"
+      "description": "Restaurant asian for all plate for Wok and Soshi and salades",
+      "branches": [
+        {
+          "id": 701,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "92 Bd d'Anfa, Casablanca 20020",
+          "location": { "latitude": 33.594295, "longitude": -7.63292 }
+        },
+        {
+          "id": 702,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "92 Bd d'Anfa, Casablanca 20020",
+          "location": { "latitude": 33.594295, "longitude": -7.63292 }
+        },
+        {
+          "id": 703,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "92 Bd d'Anfa, Casablanca 20020",
+          "location": { "latitude": 33.594295, "longitude": -7.63292 }
+        }
+      ],
+      "menu_categories": {
+        "Plats": [
+          {
+            "id": 1,
+            "name": "Plat 1",
+            "description": "Plat 1 description",
+            "price": 10.99
+          },
+          {
+            "id": 2,
+            "name": "Plat 2",
+            "description": "Plat 2 description",
+            "price": 12.99
+          }
+        ]
+      }
     },
     "Tacos de Lyon": {
       "id": 8,
       "name": "Tacos de Lyon",
       "image_url": "https://aeriamall.com/backend/uploads/TACOS_4f3bb6d0b0.png",
-      "address": "Boulevard Mohammed VI, Fes, Morocco"
+      "description": "Tacos de Lyon is a French fast food with tortilla, meats, fries, and cheese sauce.",
+      "branches": [
+        {
+          "id": 801,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Marina Shopping, 2ème étage, Bd des Almohades, Casablanca",
+          "location": { "latitude": 33.61100, "longitude": -7.61899 }
+        },
+        {
+          "id": 802,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "154 Boulevard Bir Anzarane, Casablanca 20250",
+          "location": { "latitude": 33.58923, "longitude": -7.64209 }
+        },
+        {
+          "id": 803,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Ain Chock G9PR+67V, Casablanca",
+          "location": { "latitude": 33.53773, "longitude": -7.60727 }
+        }
+      ]
     },
-    "Pizza Hub": {
+    "Espace Hassan": {
       "id": 9,
-      "name": "Pizza Hub",
+      "name": "Espace Hassan",
       "image_url": "https://www.kylescreative.ca/assets/img/Pizzahub1.jpg",
-      "address": "Avenue des FAR, Meknes, Morocco"
+      "description": "the best espace for eating and drinking cofe and tea...",
+      "branches": [
+        {
+          "id": 901,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Haddaouia 3, N°13 bis Bd de Fes, Casablanca 20310",
+          "location": { "latitude": 33.55492, "longitude": -7.60218 }
+        },
+        {
+          "id": 903,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "27 Boulevard Ouled Haddou, Krimat, Casablanca",
+          "location": { "latitude": 33.55177, "longitude": -7.60905 }
+        },
+        {
+          "id": 903,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "résidence picadilly, 16 Av. TanTan, Casablanca 20250",
+          "location": { "latitude": 33.60223, "longitude": -7.64703 }
+        }
+      ]
     },
-    "Taco Bell": {
+    "Banini Hassan": {
       "id": 10,
-      "name": "Taco Bell",
+      "name": "Banini Hassan",
       "image_url": "https://assets.turbologo.com/blog/fr/2020/02/19133812/Taco-Bell.png",
-      "address": "Avenue Mohammed VI, Casablanca, Morocco"
+      "description": "the best panini morocco",
+      "branches": [
+        {
+          "id": 903,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "Hay Hassani H8CG+Q75, Casablanca 20250",
+          "location": { "latitude": 33.57309, "longitude": -7.67436 }
+        }
+      ] 
+    },
+    "Tacos Adilo": {
+      "id": 11,
+      "name": "Tacos Adilo",
+      "image_url": "https://img.restaurantguru.com/rd31-OTACOS-ADILO-interior.jpg",
+      "description": "fast, rapid, or done in a short time.",
+      "branches": [
+        {
+          "id": 901,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "H9XF+2FQ, Rue des Anglais, Casablanca 20250",
+          "location": { "latitude": 33.59777, "longitude": -7.62625 }
+        }
+      ]
     },
     "Quick": {
-      "id": 11,
-      "name": "Quick",
-      "image_url": "https://static.actu.fr/uploads/2021/08/adobestock-448927659-editorial-use-only.jpeg",
-      "address": "Boulevard Zerktouni, Marrakech, Morocco"
-    },
-    "Big M": {
       "id": 12,
-      "name": "Big M",
-      "image_url": "https://bigm-burger.fr/wp-content/uploads/agile-store-locator/Logo/sans-titre-1-628f96bd2b4c8.jpg",
-      "address": "Corniche Ain Diab, Casablanca, Morocco"
+      "name": "Quick",
+      "image_url": "https://i0.wp.com/consonews.ma/wp-content/uploads/2017/07/quick.jpg",
+      "description": "Quick by Menu offers fast food with a variety of burgers, fries, and desserts, focusing on speed and taste.",
+      "branches": [
+        {
+          "id": 901,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "6 Rue El Kadi Lass, Casablanca 20250",
+          "location": { "latitude": 33.59777, "longitude": -7.62625 }
+        },
+        {
+          "id": 902,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "75 Bis Lot Epinel Ibnou Jaber Attabari, Rue Socrate, Casablanca",
+          "location": { "latitude": 33.58681, "longitude": -7.63589 }
+        },
+        {
+          "id": 903,
+          "city": "Casablanca",
+          "country": "Morocco",
+          "address": "11 Rue Allal Ben Ahmed Amkik, Casablanca 20250",
+          "location": { "latitude": 33.59291, "longitude": -7.59186 }
+        }
+      ]
     }
   }
 }
