@@ -10,6 +10,7 @@ import ContactPage from "./components/Footer/Contact/ContactPage";
 import TermsConditions from "./components/Footer/TermsConditions/TermsConditions";
 import PrivacyPolicy from "./components/Footer/PrivacyPolicy/PrivacyPolicy";
 import CookiesPolicy from "./components/Footer/CookiesPolicy/CookiesPolicy";
+import { CartProvider } from "./pages/MenuPage";
 
 
 const clerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -22,6 +23,7 @@ if (!clerkKey || !frontEnd) {
 function App() {
   return (
     <Router>
+      <CartProvider>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
@@ -35,6 +37,7 @@ function App() {
           <Route path="/CookiesPolicy" element={<CookiesPolicy />} />
         </Route>
       </Routes>
+      </CartProvider>
     </Router>
   )
 }

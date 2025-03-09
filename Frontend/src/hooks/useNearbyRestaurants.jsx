@@ -69,12 +69,12 @@ const useNearbyRestaurants = () => {
     setNearbyRestaurants(nearbyRestaurantsList);
     setLoading(false);
   }, [restaurantsLoading, restaurantsError, allRestaurants]);
-  // const getMenuCategories = Object.values(allRestaurants)
-  //   .map(restaurant => {
-  //     if (!restaurant.menu_categories) return null;
-  //     return restaurant.menu_categories;
-  //   })
-  // console.log("getMenuCategories", getMenuCategories);
+  const getMenuCategories = Object.values(allRestaurants)
+    .map(restaurant => {
+      if (!restaurant.menu_categories) return null;
+      return restaurant.menu_categories;
+    })
+  console.log("getMenuCategories", getMenuCategories);
 
 
   return { restaurants: nearbyRestaurants, loading, error };
