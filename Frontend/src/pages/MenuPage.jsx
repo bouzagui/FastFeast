@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, createContext, useContext } from "react"
 import { useParams } from "react-router-dom"
 import useNearbyRestaurants from "../hooks/useNearbyRestaurants"
 import { ChevronLeft, Clock, Star, Minus, Plus, ShoppingBag } from "lucide-react"
+// import Navbar from "../components/Navbar/Navbar"
 // Create the context
 
 export const CartContext = createContext()
@@ -13,6 +14,11 @@ export const useCart = () => useContext(CartContext)
 export function CartProvider({ children }) {
   const [itemQuantity, setItemQuantity] = useState({})
   const [cartVisible, setCartVisible] = useState(false)
+  const [menuCategories, setMenuCategories] = useState(null)
+
+  const updateMenuCategories = (categories) => {
+    setMenuCategories(categories)
+  }
 
   const updateItemQuantity = (itemId, change) => {
     setItemQuantity((prevState) => {
@@ -51,7 +57,9 @@ export function CartProvider({ children }) {
         updateItemQuantity,
         calculateCart,
         cartVisible,
-        toggleCart
+        toggleCart,
+        menuCategories,
+        updateMenuCategories
       }}
     >
       {children}
@@ -65,8 +73,40 @@ export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState("")
   const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false)
   const categoryRefs = useRef({})
-  const { itemQuantity, updateItemQuantity, calculateCart } = useCart()
+  const { itemQuantity, updateItemQuantity, calculateCart, updateMenuCategories } = useCart()
+  
+  // All state and derived values that depend on async data
+  const [menuCategories, setMenuCategories] = useState({})
+  const [restaurant, setRestaurant] = useState(null)
+  const [cartInfo, setCartInfo] = useState({ totalItems: 0, totalPrice: 0 })
 
+  // Update restaurant when data is loaded
+  useEffect(() => {
+    if (!loading && !error && restaurants) {
+      const foundRestaurant = restaurants.find((rest) => rest.id === id)
+      setRestaurant(foundRestaurant || null)
+      
+      if (foundRestaurant && foundRestaurant.menu_categories) {
+        setMenuCategories(foundRestaurant.menu_categories)
+        updateMenuCategories(foundRestaurant.menu_categories)
+      }
+    }
+  }, [id, restaurants, loading, error, updateMenuCategories])
+
+  // Calculate cart info whenever relevant data changes
+  useEffect(() => {
+    const { totalItems, totalPrice } = calculateCart(menuCategories)
+    setCartInfo({ totalItems, totalPrice })
+  }, [menuCategories, itemQuantity, calculateCart])
+
+  // Set first category as active if not set
+  useEffect(() => {
+    if (activeCategory === "" && Object.keys(menuCategories).length > 0) {
+      setActiveCategory(Object.keys(menuCategories)[0])
+    }
+  }, [activeCategory, menuCategories])
+
+  // Handle scroll events
   useEffect(() => {
     const handleScroll = () => {
       setIsHeaderCollapsed(window.scrollY > 10)
@@ -74,7 +114,7 @@ export default function MenuPage() {
       // Find which category is currently in view
       const categoryPositions = Object.entries(categoryRefs.current).map(([name, ref]) => ({
         name,
-        position: ref.getBoundingClientRect().top,
+        position: ref?.getBoundingClientRect()?.top || 0,
       }))
 
       const visibleCategory = categoryPositions
@@ -101,14 +141,15 @@ export default function MenuPage() {
     }
   }
 
-  if (loading)
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
     )
+  }
 
-  if (error)
+  if (error) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-center p-6 bg-red-50 rounded-lg">
@@ -116,9 +157,7 @@ export default function MenuPage() {
         </div>
       </div>
     )
-
-  // Find the restaurant by ID
-  const restaurant = restaurants.find((rest) => rest.id === id)
+  }
 
   if (!restaurant) {
     return (
@@ -130,18 +169,10 @@ export default function MenuPage() {
     )
   }
 
-  // Extract menu categories from the restaurant
-  const menuCategories = restaurant.menu_categories || {}
-
-  // Set first category as active if not set
-  if (activeCategory === "" && Object.keys(menuCategories).length > 0) {
-    setActiveCategory(Object.keys(menuCategories)[0])
-  }
-
-  const { totalItems, totalPrice } = calculateCart(menuCategories)
+  const { totalItems, totalPrice } = cartInfo
 
   return (
-    <div className="pb-24 bg-gray-50 min-h-screen">
+    <div className="pt-11 pb-16 bg-gray-50 min-h-screen">
       {/* Back button */}
       <div className="fixed top-4 left-4 z-50">
         <button className="bg-white rounded-full p-2 shadow-md" onClick={() => window.history.back()}>
@@ -176,7 +207,7 @@ export default function MenuPage() {
 
       {/* Collapsed Header */}
       <div
-        className={`fixed top-0 left-0 right-0 bg-white z-40 shadow-md transition-all duration-300 ${
+        className={`bg-white z-40 shadow-md transition-all ${
           isHeaderCollapsed ? "h-16 opacity-100" : "h-0 opacity-0 overflow-hidden"
         }`}
       >
@@ -276,7 +307,7 @@ export default function MenuPage() {
               <span className="font-bold text-lg">${totalPrice.toFixed(2)}</span>
             </div>
             <button className="bg-amber-400 text-gray-800 font-bold py-3 px-6 rounded-lg flex items-center">
-              <ShoppingBag className="h-5 w-5 mr-2" />
+              <ShoppingBag className="h-5 w-5 mr-2 text-gray-800" />
               <span>
                 View Cart ({totalItems} item{totalItems !== 1 ? "s" : ""})
               </span>
