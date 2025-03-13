@@ -11,6 +11,9 @@ import TermsConditions from "./components/Footer/TermsConditions/TermsConditions
 import PrivacyPolicy from "./components/Footer/PrivacyPolicy/PrivacyPolicy";
 import CookiesPolicy from "./components/Footer/CookiesPolicy/CookiesPolicy";
 import { CartProvider } from "./pages/MenuPage";
+import OrderConfirmation from "./pages/OrderConfirmation";
+import CheckoutPage from "./pages/checkoutPage";
+import { useUser, SignIn, SignUp, RedirectToSignIn } from "@clerk/clerk-react";
 
 
 const clerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -19,6 +22,11 @@ if (!clerkKey || !frontEnd) {
   throw new Error("Missing Clerk Publishable Key. Check your .env file.");
 }
 
+const ProtectedRoute = ({ children }) => {
+  const { isSignedIn } = useUser();
+
+  return isSignedIn ? children : <RedirectToSignIn />
+}
 
 function App() {
   return (
@@ -29,6 +37,17 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/restaurants" element={<Restaurants />} />
           <Route path="/MenuPage/:id" element={<MenuPage />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route 
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <CheckoutPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/order-confirmation" element={<OrderConfirmation />} />
           <Route path="/aboutPage" element={<AboutPage />} />
           <Route path="/FAQPage" element={<FAQSection />} />
           <Route path="/ContactPage" element={<ContactPage />} />

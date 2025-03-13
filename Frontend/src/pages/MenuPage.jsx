@@ -2,8 +2,7 @@ import { useState, useRef, useEffect, createContext, useContext } from "react"
 import { useParams } from "react-router-dom"
 import useNearbyRestaurants from "../hooks/useNearbyRestaurants"
 import { ChevronLeft, Clock, Star, Minus, Plus, ShoppingBag } from "lucide-react"
-// import Navbar from "../components/Navbar/Navbar"
-// Create the context
+import { useNavigate } from "react-router-dom"
 
 export const CartContext = createContext()
 
@@ -74,12 +73,17 @@ export default function MenuPage() {
   const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false)
   const categoryRefs = useRef({})
   const { itemQuantity, updateItemQuantity, calculateCart, updateMenuCategories } = useCart()
-  
+
   // All state and derived values that depend on async data
   const [menuCategories, setMenuCategories] = useState({})
   const [restaurant, setRestaurant] = useState(null)
   const [cartInfo, setCartInfo] = useState({ totalItems: 0, totalPrice: 0 })
 
+  const navigate = useNavigate()
+
+  const handleCheckout = () => {
+    navigate("/checkout")
+  }
   // Update restaurant when data is loaded
   useEffect(() => {
     if (!loading && !error && restaurants) {
@@ -306,7 +310,9 @@ export default function MenuPage() {
               <span className="text-gray-600 font-medium">Your Order</span>
               <span className="font-bold text-lg">${totalPrice.toFixed(2)}</span>
             </div>
-            <button className="bg-amber-400 text-gray-800 font-bold py-3 px-6 rounded-lg flex items-center">
+            <button 
+              onClick={handleCheckout}
+              className="bg-amber-400 text-gray-800 font-bold py-3 px-6 rounded-lg flex items-center">
               <ShoppingBag className="h-5 w-5 mr-2 text-gray-800" />
               <span>
                 View Cart ({totalItems} item{totalItems !== 1 ? "s" : ""})

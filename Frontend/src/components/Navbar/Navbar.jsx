@@ -1,7 +1,7 @@
 import { ShoppingCart } from 'lucide-react'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
 import { useCart } from '../../pages/MenuPage' // Make sure the path is correct
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Navbar() {
   const { calculateCart, toggleCart, cartVisible, itemQuantity, menuCategories } = useCart() || { 
@@ -11,9 +11,12 @@ function Navbar() {
     itemQuantity: {},
     menuCategories: null
   }
+  const navigate = useNavigate();
 
-  // This assumes you have access to the menuCategories globally
-  // You might need to adjust how you access this data depending on your app structure
+  const handleCheckout = () => {
+    navigate("/checkout");
+  }
+
   const { totalItems, totalPrice } = calculateCart(menuCategories);
 
   const getCartItems = () => {
@@ -27,13 +30,13 @@ function Navbar() {
         if (quantity > 0) {
           items.push({ ...item, quantity })
         }
-      })
-    })
+      });
+    });
 
-    return items
+    return items;
   }
   
-  const cartItems = getCartItems()
+  const cartItems = getCartItems();
 
   return (
     <div>
@@ -42,13 +45,13 @@ function Navbar() {
           <div className="flex justify-between items-center">
             <a href="/" className="m-0 p-0 font-extrabold text-2xl">logo</a>
             <div className='grid grid-cols-3 space-x-25 relative top-2'>
-              <Link to="/" className="relative group">
+              {/* <Link to="/" className="relative group">
                 <span
-                  className='font-bold text-[20px] absolute left-0 right-0 top-0 h-0.5 scale-x-90 transform transition-transform duration-700 ease-in-out group-hover:scale-x-100'>Home</span>
+                  className='font-semibold text-[20px] absolute left-0 right-0 top-0 h-0.5 scale-x-90 transform transition-transform duration-700 ease-in-out group-hover:scale-x-100'>Home</span>
                 <span className="absolute left-0 right-10 top-7 h-0.5 scale-x-0 bg-white transform transition-transform duration-700 ease-in-out group-hover:scale-x-100"></span>
-              </Link>
+              </Link> */}
               <div className="relative group">
-                <ShoppingCart className='size-8 mr-16 cursor-pointer absolute scale-x-90 transform transition-transform duration-700 ease-in-out group-hover:scale-x-110' onClick={toggleCart} />
+                <ShoppingCart className='size-8 mr-16 cursor-pointer absolute scale-x-80 transform transition-transform duration-700 ease-in-out group-hover:scale-x-100' onClick={toggleCart} />
                 {totalItems > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                     {totalItems}
@@ -99,7 +102,9 @@ function Navbar() {
                   <span>Total:</span>
                   <span className="font-bold">${totalPrice.toFixed(2)}</span>
                 </div>
-                <button className="w-full bg-amber-400 text-gray-800 font-bold py-2 rounded-lg">
+                <button
+                  onClick={(handleCheckout)}
+                  className="w-full bg-amber-400 text-gray-800 font-bold py-2 rounded-lg">
                   Checkout
                 </button>
               </div>
