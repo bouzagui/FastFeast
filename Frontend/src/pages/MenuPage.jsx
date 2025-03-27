@@ -1,70 +1,11 @@
-import { useState, useRef, useEffect, createContext, useContext } from "react"
+"use client"
+
+import { useState, useRef, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import useNearbyRestaurants from "../hooks/useNearbyRestaurants"
 import { ChevronLeft, Clock, Star, Minus, Plus, ShoppingBag } from "lucide-react"
 import { useNavigate } from "react-router-dom"
-
-export const CartContext = createContext()
-
-// Custom hook to use the cart context
-export const useCart = () => useContext(CartContext)
-
-// CartProvider component
-export function CartProvider({ children }) {
-  const [itemQuantity, setItemQuantity] = useState({})
-  const [cartVisible, setCartVisible] = useState(false)
-  const [menuCategories, setMenuCategories] = useState(null)
-
-  const updateMenuCategories = (categories) => {
-    setMenuCategories(categories)
-  }
-
-  const updateItemQuantity = (itemId, change) => {
-    setItemQuantity((prevState) => {
-      const currentQuantity = prevState[itemId] || 0
-      const newQuantity = Math.max(0, currentQuantity + change)
-      return { ...prevState, [itemId]: newQuantity }
-    })
-  }
-
-  // Calculate total items and price
-  const calculateCart = (menuCategories) => {
-    if (!menuCategories) return { totalItems: 0, totalPrice: 0 }
-
-    let totalItems = 0
-    let totalPrice = 0
-
-    Object.entries(menuCategories).forEach(([_, items]) => {
-      items.forEach((item) => {
-        const quantity = itemQuantity[item.id] || 0
-        totalItems += quantity
-        totalPrice += quantity * item.price
-      })
-    })
-
-    return { totalItems, totalPrice }
-  }
-
-  const toggleCart = () => {
-    setCartVisible(!cartVisible)
-  }
-
-  return (
-    <CartContext.Provider
-      value={{
-        itemQuantity,
-        updateItemQuantity,
-        calculateCart,
-        cartVisible,
-        toggleCart,
-        menuCategories,
-        updateMenuCategories
-      }}
-    >
-      {children}
-    </CartContext.Provider>
-  )
-}
+import { useCart } from "../context/CartProvider"
 
 export default function MenuPage() {
   const { id } = useParams()
@@ -72,36 +13,190 @@ export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState("")
   const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false)
   const categoryRefs = useRef({})
-  const { itemQuantity, updateItemQuantity, calculateCart, updateMenuCategories } = useCart()
+  const { updateItemQuantity, calculateCart, updateMenuCategories, restaurantCarts } = useCart()
 
   // All state and derived values that depend on async data
   const [menuCategories, setMenuCategories] = useState({})
   const [restaurant, setRestaurant] = useState(null)
   const [cartInfo, setCartInfo] = useState({ totalItems: 0, totalPrice: 0 })
 
+  // Track if menu categories have been updated to prevent infinite loop
+  const menuCategoriesUpdatedRef = useRef(false)
+
   const navigate = useNavigate()
+
+  const handleBack = () => {
+    navigate("/restaurants", { replace: true })
+  }
 
   const handleCheckout = () => {
     navigate("/checkout")
   }
+
+  // Process menu categories from restaurant data
+  const processMenuCategories = (restaurantData) => {
+    console.log("Processing menu categories for:", restaurantData)
+
+    // Check if restaurant has menu with categories array
+    if (restaurantData.menu && restaurantData.menu.categories && Array.isArray(restaurantData.menu.categories)) {
+      // Convert the categories array directly to an object with category names as keys
+      const categories = {}
+
+      restaurantData.menu.categories.forEach((category) => {
+        categories[category.name] = category.items.map((item) => ({
+          id: item.id,
+          name: item.name,
+          description: item.description || "",
+          price: Number.parseFloat(item.price) || 0,
+          image_url: item.image_url || null,
+        }))
+      })
+
+      console.log("Processed categories from menu.categories:", categories)
+      return categories
+    }
+
+    // Keep the rest of your fallback logic for other data structures
+    const DEFAULT_CATEGORY = "Menu Items"
+
+    // Check if the restaurant has menu items array directly
+    if (restaurantData.menu_items && Array.isArray(restaurantData.menu_items)) {
+      // Group menu items by category
+      const categories = {}
+      categories[DEFAULT_CATEGORY] = restaurantData.menu_items.map((item) => ({
+        id: item.id,
+        name: item.name,
+        description: item.description || "",
+        price: Number.parseFloat(item.price) || 0,
+        image_url: item.image_url || null,
+      }))
+
+      return categories
+    }
+
+    // Check if restaurant has menu_categories array
+    if (restaurantData.menu_categories && Array.isArray(restaurantData.menu_categories)) {
+      // Group menu items by category
+      const categories = {}
+
+      restaurantData.menu_categories.forEach((item) => {
+        const categoryName = item.category_name || DEFAULT_CATEGORY
+
+        if (!categories[categoryName]) {
+          categories[categoryName] = []
+        }
+
+        categories[categoryName].push({
+          id: item.id,
+          name: item.name,
+          description: item.description || "",
+          price: Number.parseFloat(item.price) || 0,
+          image_url: item.image_url || null,
+        })
+      })
+
+      return categories
+    }
+
+    // For the provided backend format (checking if there's an array in each restaurant)
+    if (restaurantData.menu && Array.isArray(restaurantData.menu)) {
+      const categories = {}
+      categories[DEFAULT_CATEGORY] = restaurantData.menu.map((item) => ({
+        id: item.id,
+        name: item.name,
+        description: item.description || "",
+        price: Number.parseFloat(item.price) || 0,
+        image_url: item.image_url || null,
+      }))
+
+      return categories
+    }
+
+    // Create sample menu items if nothing else is available
+    // This is for debugging purposes and should be removed in production
+    if (Object.keys(restaurantData).length > 0 && !Object.keys(menuCategories).length) {
+      console.log("Creating sample menu for debugging")
+      const categories = {}
+      categories[DEFAULT_CATEGORY] = [
+        {
+          id: "sample1",
+          name: "Sample Menu Item",
+          description: "This is a sample menu item for debugging",
+          price: 9.99,
+          image_url: null,
+        },
+      ]
+      return categories
+    }
+
+    // Fallback for old structure where menu_categories might be an object
+    return restaurantData.menu_categories || {}
+  }
+
+  // Debug function
+  const logRestaurantMenuData = (restaurant) => {
+    if (!restaurant) return
+
+    console.log("Restaurant ID:", restaurant.id)
+    console.log("Restaurant Name:", restaurant.name)
+    // console.log("menu_categories property:", restaurant.menu_categories);
+    // console.log("menu_items property:", restaurant.menu_items);
+    console.log("menu property:", restaurant.menu)
+
+    // Log all keys for debugging
+    // console.log("All restaurant properties:", Object.keys(restaurant));
+  }
+
   // Update restaurant when data is loaded
   useEffect(() => {
-    if (!loading && !error && restaurants) {
-      const foundRestaurant = restaurants.find((rest) => rest.id === id)
-      setRestaurant(foundRestaurant || null)
-      
-      if (foundRestaurant && foundRestaurant.menu_categories) {
-        setMenuCategories(foundRestaurant.menu_categories)
-        updateMenuCategories(foundRestaurant.menu_categories)
+    if (!loading && !error && restaurants && restaurants.length > 0) {
+      console.log("All restaurants:", restaurants)
+  
+      // Try to find restaurant by ID
+      const parsedId = isNaN(Number.parseInt(id)) ? id : Number.parseInt(id)
+      let foundRestaurant = restaurants.find((rest) => rest.id === parsedId || rest.id === id)
+  
+      // For debugging: if restaurant not found, log available restaurant IDs
+      if (!foundRestaurant) {
+        console.error("Restaurant with ID", id, "not found.")
+        console.log("Available restaurant IDs:", restaurants.map(r => r.id))
+        return
+      }
+  
+      if (foundRestaurant) {
+        setRestaurant(foundRestaurant)
+        logRestaurantMenuData(foundRestaurant)
+  
+        // Process menu categories from found restaurant
+        const processedCategories = processMenuCategories(foundRestaurant)
+        console.log(`Processed categories for Restaurant ${foundRestaurant.id}:`, processedCategories)
+        setMenuCategories(processedCategories)
+  
+        // Only update menu categories once to prevent infinite loop
+        if (!menuCategoriesUpdatedRef.current) {
+          updateMenuCategories(foundRestaurant.id, processedCategories, foundRestaurant)
+          menuCategoriesUpdatedRef.current = true
+        }
       }
     }
   }, [id, restaurants, loading, error, updateMenuCategories])
 
-  // Calculate cart info whenever relevant data changes
+  const prevCartRef = useRef()
+
   useEffect(() => {
-    const { totalItems, totalPrice } = calculateCart(menuCategories)
-    setCartInfo({ totalItems, totalPrice })
-  }, [menuCategories, itemQuantity, calculateCart])
+    if (restaurant && restaurant.id) {
+      const newCartInfo = calculateCart(restaurant.id)
+      // Only update if values actually changed
+      if (
+        !prevCartRef.current ||
+        prevCartRef.current.totalItems !== newCartInfo.totalItems ||
+        prevCartRef.current.totalPrice !== newCartInfo.totalPrice
+      ) {
+        setCartInfo(newCartInfo)
+        prevCartRef.current = newCartInfo
+      }
+    }
+  }, [restaurant, calculateCart, restaurantCarts])
 
   // Set first category as active if not set
   useEffect(() => {
@@ -167,7 +262,7 @@ export default function MenuPage() {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-center p-6 bg-gray-50 rounded-lg">
-          <p className="text-gray-500 font-medium">Restaurant not found.</p>
+          <p className="text-gray-500 font-medium">Restaurant not found. Please try again.</p>
         </div>
       </div>
     )
@@ -179,7 +274,7 @@ export default function MenuPage() {
     <div className="pt-11 pb-16 bg-gray-50 min-h-screen">
       {/* Back button */}
       <div className="fixed top-4 left-4 z-50">
-        <button className="bg-white rounded-full p-2 shadow-md" onClick={() => window.history.back()}>
+        <button className="bg-white rounded-full p-2 shadow-md" onClick={handleBack}>
           <ChevronLeft className="h-6 w-6 text-gray-700" />
         </button>
       </div>
@@ -258,17 +353,19 @@ export default function MenuPage() {
                           className="w-full h-full object-cover"
                         />
                         <div className="absolute bottom-2 right-2">
-                          {itemQuantity[item.id] ? (
+                          {restaurant && restaurantCarts[restaurant.id]?.items[item.id] ? (
                             <div className="flex items-center bg-white rounded-full shadow-md">
                               <button
-                                onClick={() => updateItemQuantity(item.id, -1)}
+                                onClick={() => updateItemQuantity(restaurant.id, item.id, -1)}
                                 className="p-1 rounded-full text-primary bg-gray-100 hover:bg-gray-200"
                               >
                                 <Minus className="h-5 w-5" />
                               </button>
-                              <span className="w-6 text-center font-medium">{itemQuantity[item.id]}</span>
+                              <span className="w-6 text-center font-medium">
+                                {restaurantCarts[restaurant.id]?.items[item.id] || 0}
+                              </span>
                               <button
-                                onClick={() => updateItemQuantity(item.id, 1)}
+                                onClick={() => updateItemQuantity(restaurant.id, item.id, 1)}
                                 className="p-1 rounded-full text-primary bg-gray-100 hover:bg-gray-200"
                               >
                                 <Plus className="h-5 w-5" />
@@ -276,7 +373,7 @@ export default function MenuPage() {
                             </div>
                           ) : (
                             <button
-                              onClick={() => updateItemQuantity(item.id, 1)}
+                              onClick={() => updateItemQuantity(restaurant.id, item.id, 1)}
                               className="bg-primary font-black text-green-500 p-2 rounded-full bg-gray-100 shadow-md hover:bg-primary/90 transition-colors"
                             >
                               <Plus className="h-5 w-5" />
@@ -296,7 +393,7 @@ export default function MenuPage() {
             ))
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-500">No menu categories available.</p>
+              <p className="text-gray-500">No menu categories available. Restaurant ID: {id}</p>
             </div>
           )}
         </div>
@@ -310,9 +407,10 @@ export default function MenuPage() {
               <span className="text-gray-600 font-medium">Your Order</span>
               <span className="font-bold text-lg">${totalPrice.toFixed(2)}</span>
             </div>
-            <button 
+            <button
               onClick={handleCheckout}
-              className="bg-amber-400 text-gray-800 font-bold py-3 px-6 rounded-lg flex items-center">
+              className="bg-amber-400 text-gray-800 font-bold py-3 px-6 rounded-lg flex items-center"
+            >
               <ShoppingBag className="h-5 w-5 mr-2 text-gray-800" />
               <span>
                 View Cart ({totalItems} item{totalItems !== 1 ? "s" : ""})
@@ -324,3 +422,4 @@ export default function MenuPage() {
     </div>
   )
 }
+

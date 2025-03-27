@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const RestaurantCards = ({ restaurant }) => {
+const RestaurantCarts = ({ restaurant }) => {
   if (!restaurant) return null;
 
   return (
@@ -56,4 +56,4 @@ const RestaurantCards = ({ restaurant }) => {
   );
 };
 
-export default RestaurantCards;
+export default RestaurantCarts;
