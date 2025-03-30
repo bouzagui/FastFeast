@@ -10,12 +10,21 @@ const CheckoutPage = () => {
   const { 
     calculateCart, 
     currentRestaurantId,
-    restaurantCarts 
+    restaurantCarts,
+    clearCart 
   } = useCart();
-  const [paymentMethod, setPaymentMethod] = useState("card");
+  const [paymentMethod, setPaymentMethod] = useState("cod"); // Default to cash on delivery
   const [isProcessing, setIsProcessing] = useState(false);
-  const { isSignedIn } = useUser();
+  const [paymentError, setPaymentError] = useState("");
+  const { isSignedIn, user } = useUser();
   const { location, loading, error, userAddress } = useNearbyRestaurants();
+  
+  // Card details state
+  const [cardDetails, setCardDetails] = useState({
+    cardNumber: "",
+    expiryDate: "",
+    cvv: ""
+  });
 
   useEffect(() => {
     if (!isSignedIn) {
@@ -33,50 +42,216 @@ const CheckoutPage = () => {
   const tax = totalPrice * 0.08; // Assuming 8% tax
   const grandTotal = totalPrice + deliveryFee + serviceFee + tax;
 
-
   // Items in cart for display
   const cartItems = [];
 
   if (currentRestaurantId && restaurantCarts[currentRestaurantId]) {
     const { items: itemQuantities, menuCategories } = restaurantCarts[currentRestaurantId];
 
-  if (menuCategories) {
-    Object.entries(menuCategories).forEach(([_, categoryItems]) => {
-      categoryItems.forEach((item) => {
-        const quantity = itemQuantities[item.id] || 0;
-        if (quantity > 0) {
-          cartItems.push({
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            quantity
-          });
+    if (menuCategories) {
+      Object.entries(menuCategories).forEach(([_, categoryItems]) => {
+        categoryItems.forEach((item) => {
+          const quantity = itemQuantities[item.id] || 0;
+          if (quantity > 0) {
+            cartItems.push({
+              id: item.id,
+              name: item.name,
+              price: item.price,
+              quantity
+            });
+          }
+        });
+      });
+    }
+  }
+
+  const handleCardInputChange = (e) => {
+    const { name, value } = e.target;
+    setCardDetails(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Process card payment - only called for card payments
+  const processCardPayment = async () => {
+    try {
+      // Create payment payload for card processing
+      const paymentPayload = {
+        amount: grandTotal,
+        currency: "USD",
+        paymentMethod: "card",
+        paymentDetails: {
+          cardNumber: cardDetails.cardNumber.replace(/\s/g, ''),
+          expiryDate: cardDetails.expiryDate,
+          // Do not include full CVV for security
+        }
+      };
+
+      // Call payment processing endpoint
+      const paymentResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/payments/process`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${await user?.getIdToken()}`
+        },
+        body: JSON.stringify(paymentPayload)
+      });
+
+      if (!paymentResponse.ok) {
+        const errorData = await paymentResponse.json();
+        throw new Error(errorData.message || 'Payment processing failed');
+      }
+
+      const paymentResult = await paymentResponse.json();
+      
+      // Return payment ID or transaction ID
+      return paymentResult.paymentId;
+    } catch (error) {
+      console.error("Payment processing error:", error);
+      throw error; // Re-throw to be caught by the calling function
+    }
+  };
+
+  // Create order - called for both payment methods
+  const createOrder = async (paymentId = null) => {
+    try {
+      // Create order payload
+      const orderPayload = {
+        userId: user?.id,
+        restaurantId: currentRestaurantId,
+        items: cartItems.map(item => ({
+          itemId: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity
+        })),
+        paymentMethod,
+        paymentId, // Will be null for COD orders
+        deliveryAddress: userAddress,
+        fees: {
+          subtotal: totalPrice,
+          deliveryFee,
+          serviceFee,
+          tax,
+          total: grandTotal
+        }
+      };
+
+      // Send to your backend
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${await user?.getIdToken()}`
+        },
+        body: JSON.stringify(orderPayload)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Order creation failed');
+      }
+
+      const data = await response.json();
+      
+      // Clear cart after successful order
+      clearCart(currentRestaurantId);
+      
+      // Navigate to order confirmation page
+      navigate("/order-confirmation", {
+        state: {
+          orderId: data.orderId,
+          items: cartItems,
+          total: grandTotal,
+          address: userAddress || "No location detected",
+          estimatedDelivery: data.estimatedDelivery || "25-35 min",
+          paymentMethod: paymentMethod === "cod" ? "Cash on Delivery" : "Credit/Debit Card",
+          paymentStatus: paymentMethod === "cod" ? "Payment on Delivery" : "Paid"
         }
       });
-    });
-  }
-}
+    } catch (error) {
+      console.error("Order creation error:", error);
+      setPaymentError(error.message || "Failed to create order. Please try again.");
+      setIsProcessing(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsProcessing(true);
+    setPaymentError("");
 
-    // Simulate payment processing
-    setTimeout(() => {
-      setIsProcessing(false);
-      // Navigate to order confirmation page
-      navigate("/order-confirmation", {
-        state: {
-          orderId: "ORD" + Math.floor(100000 + Math.random() * 900000),
-          items: cartItems,
-          total: grandTotal,
-          address: location
-            ? userAddress
-            : "No location detected",
-          estimatedDelivery: "25-35 min"
+    try {
+      // If payment method is Cash on Delivery, skip payment processing
+      if (paymentMethod === "cod") {
+        // Create order directly without payment processing
+        await createOrder();
+      } 
+      // If payment method is card, validate and process payment first
+      else if (paymentMethod === "card") {
+        // Validate card details
+        if (!cardDetails.cardNumber || !cardDetails.expiryDate || !cardDetails.cvv) {
+          setPaymentError("Please fill in all card details");
+          setIsProcessing(false);
+          return;
         }
-      });
-    }, 2000);
+        
+        // Validate card number format
+        const cardNumberClean = cardDetails.cardNumber.replace(/\s/g, '');
+        if (!/^\d{16}$/.test(cardNumberClean)) {
+          setPaymentError("Invalid card number format");
+          setIsProcessing(false);
+          return;
+        }
+        
+        // Validate expiry date format (MM/YY)
+        if (!/^\d{2}\/\d{2}$/.test(cardDetails.expiryDate)) {
+          setPaymentError("Invalid expiry date format (use MM/YY)");
+          setIsProcessing(false);
+          return;
+        }
+        
+        // Validate CVV format
+        if (!/^\d{3,4}$/.test(cardDetails.cvv)) {
+          setPaymentError("Invalid CVV");
+          setIsProcessing(false);
+          return;
+        }
+
+        // Process card payment
+        try {
+          const paymentId = await processCardPayment();
+          // If payment is successful, create the order with payment ID
+          await createOrder(paymentId);
+        } catch (error) {
+          setPaymentError(error.message || "Payment failed. Please check your card details and try again.");
+          setIsProcessing(false);
+        }
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      setPaymentError("An unexpected error occurred. Please try again.");
+      setIsProcessing(false);
+    }
+  };
+
+  // Format card number with spaces
+  const formatCardNumber = (value) => {
+    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+    const matches = v.match(/\d{4,16}/g);
+    const match = matches && matches[0] || '';
+    const parts = [];
+    
+    for (let i = 0, len = match.length; i < len; i += 4) {
+      parts.push(match.substring(i, i + 4));
+    }
+    
+    if (parts.length) {
+      return parts.join(' ');
+    } else {
+      return value;
+    }
   };
 
   return (
@@ -148,18 +323,7 @@ const CheckoutPage = () => {
               </div>
 
               <div className="space-y-3">
-                <label className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="card"
-                    checked={paymentMethod === "card"}
-                    onChange={() => setPaymentMethod("card")}
-                    className="mr-3"
-                  />
-                  <span>Credit/Debit Card</span>
-                </label>
-
+                {/* Cash on Delivery option first */}
                 <label className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
                   <input
                     type="radio"
@@ -172,14 +336,42 @@ const CheckoutPage = () => {
                   <span>Cash on Delivery</span>
                 </label>
 
+                <label className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="card"
+                    checked={paymentMethod === "card"}
+                    onChange={() => setPaymentMethod("card")}
+                    className="mr-3"
+                  />
+                  <span>Credit/Debit Card</span>
+                </label>
+
+                {/* Only show card details form when card payment is selected */}
                 {paymentMethod === "card" && (
                   <div className="mt-4 p-4 border border-gray-200 rounded-lg">
+                    {paymentError && (
+                      <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg">
+                        {paymentError}
+                      </div>
+                    )}
                     <div className="mb-4">
                       <label className="block text-sm text-gray-700 mb-1">Card Number</label>
                       <input
                         type="text"
+                        name="cardNumber"
+                        value={cardDetails.cardNumber}
+                        onChange={(e) => {
+                          const formatted = formatCardNumber(e.target.value);
+                          setCardDetails(prev => ({
+                            ...prev,
+                            cardNumber: formatted
+                          }));
+                        }}
                         className="w-full p-2 border border-gray-300 rounded"
                         placeholder="1234 5678 9012 3456"
+                        maxLength="19"
                       />
                     </div>
 
@@ -188,16 +380,24 @@ const CheckoutPage = () => {
                         <label className="block text-sm text-gray-700 mb-1">Expiry Date</label>
                         <input
                           type="text"
+                          name="expiryDate"
+                          value={cardDetails.expiryDate}
+                          onChange={handleCardInputChange}
                           className="w-full p-2 border border-gray-300 rounded"
                           placeholder="MM/YY"
+                          maxLength="5"
                         />
                       </div>
                       <div>
                         <label className="block text-sm text-gray-700 mb-1">CVV</label>
                         <input
-                          type="text"
+                          type="password"
+                          name="cvv"
+                          value={cardDetails.cvv}
+                          onChange={handleCardInputChange}
                           className="w-full p-2 border border-gray-300 rounded"
                           placeholder="123"
+                          maxLength="4"
                         />
                       </div>
                     </div>
@@ -246,12 +446,12 @@ const CheckoutPage = () => {
                 {isProcessing ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-gray-800 mr-2"></div>
-                    Processing...
+                    {paymentMethod === "card" ? "Processing Payment..." : "Placing Order..."}
                   </>
                 ) : (
                   <>
                     <Truck className="h-5 w-5 mr-2" />
-                    Place Order
+                    {paymentMethod === "card" ? "Pay & Place Order" : "Place Order"}
                   </>
                 )}
               </button>
@@ -259,6 +459,15 @@ const CheckoutPage = () => {
               {cartItems.length === 0 && (
                 <p className="text-red-500 text-sm mt-2 text-center">Your cart is empty</p>
               )}
+
+              {/* Payment method indicator */}
+              <div className="mt-4 text-center text-sm text-gray-600">
+                {paymentMethod === "cod" ? (
+                  <p>You will pay in cash upon delivery</p>
+                ) : (
+                  <p>Your card will be charged immediately</p>
+                )}
+              </div>
             </div>
           </div>
         </div>

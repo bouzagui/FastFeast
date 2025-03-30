@@ -12,12 +12,9 @@ export default function useRestaurants() {
   useEffect(() => {
     // Function to get user location from localStorage or Geolocation API
     const getUserLocation = async () => {
-      let storedLocation = localStorage.getItem("userlocation");
-
-      if (storedLocation) {
-        storedLocation = JSON.parse(storedLocation);
-        setUserLocation(storedLocation);
-      } else if (navigator.geolocation) {
+      localStorage.removeItem("userlocation"); // Clear old location before fetching new one
+    
+      if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const location = {
@@ -38,6 +35,7 @@ export default function useRestaurants() {
         setLoading(false);
       }
     };
+    
 
     getUserLocation();
   }, []);

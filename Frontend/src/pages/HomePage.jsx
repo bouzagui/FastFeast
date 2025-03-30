@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Search, MapPin, Clock, Star, ArrowRight, Utensils, Truck, CreditCard, ChevronRight } from "lucide-react"
 import useNearbyRestaurants from "../hooks/useNearbyRestaurants"
-import HeroSection from "../components/Footer/HeroSection/HeroSection"
+import HeroSection from "../components/HeroSection/HeroSection"
 
 export default function HomePage() {
   const navigate = useNavigate()

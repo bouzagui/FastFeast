@@ -10,7 +10,7 @@ const RestaurantCarts = ({ restaurant }) => {
     >
       {/* Restaurant Image */}
       <img
-        src={restaurant.image_url || "/api/placeholder/400/200"}
+        src={restaurant.image_url ? restaurant.image_url : "/images/placeholder.jpg"}
         alt={restaurant?.name || "Restaurant"}
         className="w-full h-40 object-cover rounded-md mb-2"
       />

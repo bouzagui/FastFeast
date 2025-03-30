@@ -72,7 +72,6 @@ function Navbar() {
           </div>
         </div>
       </nav>
-      
       {cartVisible && (
         <div className="fixed right-16 top-16 bg-white rounded-lg shadow-xl p-4 w-96 z-50">
           <h3 className="font-bold text-lg mb-4">Your Cart</h3>
