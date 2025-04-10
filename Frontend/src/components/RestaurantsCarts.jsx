@@ -5,7 +5,7 @@ const RestaurantCarts = ({ restaurant }) => {
 
   return (
     <Link
-      to={`/MenuPage/${restaurant.id}`}
+      to={`/Menu/${restaurant.id}`}
       className="border rounded-lg p-4 shadow-md mb-4 hover:shadow-lg transition-shadow flex flex-col h-full"
     >
       {/* Restaurant Image */}
