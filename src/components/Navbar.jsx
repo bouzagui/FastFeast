@@ -1,6 +1,6 @@
 import { ShoppingCart } from 'lucide-react'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
-import { useCart } from '../context/CartContext'
+import { useCart } from '../context/CartProvider'
 import { useNavigate } from 'react-router-dom'
 
 function Navbar() {
