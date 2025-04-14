@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, MapPin, ArrowRight } from "lucide-react";
 import useNearbyRestaurants from "../../hooks/useNearbyRestaurants";
