@@ -22,6 +22,11 @@ export function CartProvider({ children }) {
 
   const toggleCart = () => {
     setCartVisible(!cartVisible)
+    if (!cartVisible) {
+      document.body.classList.add("overflow-hidden")
+    } else {
+      document.body.classList.remove("overflow-hidden")
+    }
   }
 
   const getCurrentCart = useCallback(() => {

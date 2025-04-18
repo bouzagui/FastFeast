@@ -35,12 +35,13 @@ export default function MenuPage() {
 
   // Process menu categories from restaurant data
   const processMenuCategories = (restaurantData) => {
-    console.log("Processing menu categories for:", restaurantData)
+    // console.log("Processing menu categories for:", restaurantData)
 
     // Check if restaurant has menu with categories array
     if (restaurantData.menu && restaurantData.menu.categories && Array.isArray(restaurantData.menu.categories)) {
       // Convert the categories array directly to an object with category names as keys
       const categories = {}
+      // console.log("hhhhhhh", restaurantData.menu.categories)
 
       restaurantData.menu.categories.forEach((category) => {
         categories[category.name] = category.items.map((item) => ({
@@ -52,96 +53,23 @@ export default function MenuPage() {
         }))
       })
 
-      console.log("Processed categories from menu.categories:", categories)
-      return categories
-    }
-
-    // Keep the rest of your fallback logic for other data structures
-    const DEFAULT_CATEGORY = "Menu Items"
-
-    // Check if the restaurant has menu items array directly
-    if (restaurantData.menu_items && Array.isArray(restaurantData.menu_items)) {
-      // Group menu items by category
-      const categories = {}
-      categories[DEFAULT_CATEGORY] = restaurantData.menu_items.map((item) => ({
-        id: item.id,
-        name: item.name,
-        description: item.description || "",
-        price: Number.parseFloat(item.price) || 0,
-        image_url: item.image_url || null,
-      }))
-
-      return categories
-    }
-
-    // Check if restaurant has menu_categories array
-    if (restaurantData.menu_categories && Array.isArray(restaurantData.menu_categories)) {
-      // Group menu items by category
-      const categories = {}
-
-      restaurantData.menu_categories.forEach((item) => {
-        const categoryName = item.category_name || DEFAULT_CATEGORY
-
-        if (!categories[categoryName]) {
-          categories[categoryName] = []
-        }
-
-        categories[categoryName].push({
-          id: item.id,
-          name: item.name,
-          description: item.description || "",
-          price: Number.parseFloat(item.price) || 0,
-          image_url: item.image_url || null,
-        })
-      })
-
-      return categories
-    }
-
-    // For the provided backend format (checking if there's an array in each restaurant)
-    if (restaurantData.menu && Array.isArray(restaurantData.menu)) {
-      const categories = {}
-      categories[DEFAULT_CATEGORY] = restaurantData.menu.map((item) => ({
-        id: item.id,
-        name: item.name,
-        description: item.description || "",
-        price: Number.parseFloat(item.price) || 0,
-        image_url: item.image_url || null,
-      }))
-
-      return categories
-    }
-
-    // Create sample menu items if nothing else is available
-    // This is for debugging purposes and should be removed in production
-    if (Object.keys(restaurantData).length > 0 && !Object.keys(menuCategories).length) {
-      console.log("Creating sample menu for debugging")
-      const categories = {}
-      categories[DEFAULT_CATEGORY] = [
-        {
-          id: "sample1",
-          name: "Sample Menu Item",
-          description: "This is a sample menu item for debugging",
-          price: 9.99,
-          image_url: null,
-        },
-      ]
+      // console.log("Processed categories from menu.categories:", categories)
       return categories
     }
 
     // Fallback for old structure where menu_categories might be an object
-    return restaurantData.menu_categories || {}
+    return restaurantData.menu.categories || {}
   }
 
   // Debug function
   const logRestaurantMenuData = (restaurant) => {
     if (!restaurant) return
 
-    console.log("Restaurant ID:", restaurant.id)
-    console.log("Restaurant Name:", restaurant.name)
+    // console.log("Restaurant ID:", restaurant.id)
+    // console.log("Restaurant Name:", restaurant.name)
     // console.log("menu_categories property:", restaurant.menu_categories);
     // console.log("menu_items property:", restaurant.menu_items);
-    console.log("menu property:", restaurant.menu)
+    // console.log("menu property:", restaurant.menu)
 
     // Log all keys for debugging
     // console.log("All restaurant properties:", Object.keys(restaurant));

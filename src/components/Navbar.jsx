@@ -1,70 +1,116 @@
-import { ShoppingCart } from 'lucide-react'
+import { ShoppingCart, X } from 'lucide-react'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
 import { useCart } from '../context/CartProvider'
 import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
 function Navbar() {
-  const cartContext = useCart()
-
-  console.log('Cart Context:', cartContext) // Debug log
-
   const {
-    calculateTotalCart, 
-    toggleCart, 
+    // calculateCart,
+    toggleCart,
     cartVisible,
+    restaurantCarts,
+    updateItemQuantity,
     getAllCartItems,
-    restaurantCarts
-  } = cartContext || {}
+    calculateTotalCart
+  } = useCart() || {}
 
+  const [cartTotal, setCartTotal] = useState({ totalItems: 0, totalPrice: 0 })
   const navigate = useNavigate()
+  // Track cart changes and update totals
+  useEffect(() => {
+    // This will update whenever restaurantCarts changes
+    if (calculateTotalCart) {
+      const totals = calculateTotalCart()
+      setCartTotal(totals)
+    }
+  }, [restaurantCarts, calculateTotalCart])
 
   const handleCheckout = () => {
     navigate("/checkout")
   }
 
-  // Safely get cart items and totals
-  const allCartItems = getAllCartItems ? getAllCartItems() : []
-  const { totalItems = 0, totalPrice = 0 } = calculateTotalCart ? calculateTotalCart() : {}
-
-  console.log('All Cart Items:', allCartItems) // Debug log
-  console.log('Restaurant Carts:', restaurantCarts) // Debug log
-
-  // Group items by restaurant
-  const cartItemsByRestaurant = allCartItems.reduce((acc, item) => {
-    if (!acc[item.restaurantId]) {
-      acc[item.restaurantId] = {
-        name: item.restaurantName || 'Unknown Restaurant',
-        image: item.restaurantImage || '',
-        items: []
-      }
+  // For debugging
+  useEffect(() => {
+    console.log("Current restaurantCarts:", restaurantCarts)
+    if (getAllCartItems) {
+      console.log("getAllCartItems result:", getAllCartItems())
     }
-    acc[item.restaurantId].items.push(item)
-    return acc
-  }, {})
+    if (calculateTotalCart) {
+      console.log("calculateTotalCart result:", calculateTotalCart())
+    }
+  }, [restaurantCarts, getAllCartItems, calculateTotalCart])
+
+  // Get all cart items across restaurants
+  const getCartItems = () => {
+    const items = [];
+    if (!restaurantCarts) return items;
+  
+    Object.entries(restaurantCarts).forEach(([restaurantId, restaurantCart]) => {
+      if (!restaurantCart || !restaurantCart.items) return;
+  
+      Object.entries(restaurantCart.items).forEach(([itemId, quantity]) => {
+        if (quantity > 0) {
+          const menuItem = restaurantCart.menuItems?.[itemId];
+          if (menuItem) {
+            items.push({
+              id: itemId,
+              restaurantId,
+              name: menuItem.name,
+              price: menuItem.price,
+              quantity,
+              image_url: menuItem.image_url,
+              restaurantName: restaurantCart.restaurantInfo?.name || 'Restaurant',
+            });
+          }
+        }
+      });
+    });
+  
+    console.log("Generated cart items:", items);
+    return items;
+  };
+
+  // Remove item from cart
+  const handleRemoveItem = (restaurantId, itemId) => {
+    if (updateItemQuantity) {
+      // Get current quantity
+      const currentQty = restaurantCarts[restaurantId]?.items[itemId] || 0
+      // Remove by setting to 0
+      updateItemQuantity(restaurantId, itemId, -currentQty)
+    }
+  }
+
+  // Get all cart items
+  const allCartItems = getCartItems()
 
   return (
     <div>
-      <nav className="p-0 m-0 bg-amber-400 size-auto fixed top-0 left-0 right-0">
-        <div className="ml-11 mr-11">
-          <div className="flex justify-between items-center">
+      <nav className="p-0 m-0 bg-amber-400 shadow-md size-auto fixed top-0 left-0 right-0 z-40">
+        <div className="mx-6 md:mx-11">
+          <div className="flex justify-between items-center h-16">
             <a href="/" className="m-0 p-0 font-extrabold text-2xl">logo</a>
-            <div className='grid grid-cols-3 space-x-25 relative top-2'>
-              <div className="relative group">
+            <div className="flex items-center space-x-6">
+              <div className="relative">
                 <ShoppingCart 
-                  className='size-8 mr-16 cursor-pointer' 
+                  className="size-7 cursor-pointer hover:text-amber-700 transition-colors" 
                   onClick={toggleCart} 
                 />
-                {totalItems > 0 && (
+                {cartTotal.totalItems > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {totalItems}
+                    {cartTotal.totalItems}
                   </span>
                 )}
               </div>
-              <div className='relative font-bold size-12'>
+              <div className="relative">
                 <SignedOut>
-                  <SignInButton mode="modal" redirectUrl="/" signUpUrl="/sign-up" signInUrl="/sign-in" className="text-[14px] text-black font-black text-2xl"/>
+                  <SignInButton mode="modal" redirectUrl="/" signUpUrl="/sign-up" signInUrl="/sign-in">
+                    <button className="font-bold text-sm px-3 py-1 bg-white rounded-full hover:bg-gray-100 transition-colors">
+                      Sign In
+                    </button>
+                  </SignInButton>
                 </SignedOut>
-                <SignedIn className="text-[14px] text-black font-black text-2xl">
+                <SignedIn>
                   <UserButton afterSignOutUrl="/" />
                 </SignedIn>
               </div>
@@ -72,65 +118,97 @@ function Navbar() {
           </div>
         </div>
       </nav>
+      
       {cartVisible && (
-        <div className="fixed right-16 top-16 bg-white rounded-lg shadow-xl p-4 w-96 z-50">
-          <h3 className="font-bold text-lg mb-4">Your Cart</h3>
-          {totalItems > 0 ? (
-            <>
-              <div className="max-h-64 overflow-y-auto">
-                {Object.entries(cartItemsByRestaurant).map(([restaurantId, restaurantData]) => (
-                  <div key={restaurantId} className="mb-4">
-                    <div className="flex items-center mb-2">
-                      {restaurantData.image && (
-                        <img 
-                          src={restaurantData.image} 
-                          alt={restaurantData.name} 
-                          className="w-8 h-8 rounded-full mr-2 object-cover"
-                        />
-                      )}
-                      <h4 className="font-semibold text-sm">
-                        {restaurantData.name}
-                      </h4>
-                    </div>
-                    {restaurantData.items.map(item => (
-                      <div key={item.id} className="flex items-center mb-3 pb-3 border-b">
-                        <div className="w-12 h-12 bg-gray-100 rounded overflow-hidden mr-3">
-                          <img 
-                            src={item.image_url || "/placeholder.svg"}
-                            alt={item.name}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="flex-1">
-                          <p className="font-medium text-sm">{item.name}</p>
-                          <div className="flex justify-between items-center mt-1">
-                            <p className="text-xs text-gray-500">
-                              ${item.price.toFixed(2)} × {item.quantity}
-                            </p>
-                            <p className="font-bold text-sm">
-                              ${(item.price * item.quantity).toFixed(2)}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+        <div className="fixed right-4 top-16 bg-white rounded-lg shadow-xl w-80 md:w-96 z-50 border border-gray-200">
+          <div className="flex justify-between items-center p-4 border-b">
+            <h3 className="font-bold text-lg">Your Cart</h3>
+            <button onClick={toggleCart} className="text-gray-500 hover:text-gray-700">
+              <X size={18} />
+            </button>
+          </div>
+          
+          {/* Cart Items */}
+          <div className="max-h-80 overflow-y-auto">
+            {allCartItems.length > 0 ? (
+              allCartItems.map((item) => (
+                <div key={`${item.restaurantId}-${item.id}`} className="flex items-start p-4 border-b">
+                  <div className="w-16 h-16 bg-gray-100 rounded overflow-hidden mr-3">
+                    <img 
+                      src={item.image_url || "/placeholder.svg"}
+                      alt={item.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                ))}
-              </div>
-              <div className="mt-4 pt-4 border-t border-gray-200">
-                <div className="flex justify-between mb-2">
-                  <span>Total:</span>
-                  <span className="font-bold">${totalPrice.toFixed(2)}</span>
+                  
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="font-medium text-sm">{item.name}</p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          From: {item.restaurantName}
+                        </p>
+                      </div>
+                      <button 
+                        onClick={() => handleRemoveItem(item.restaurantId, item.id)} 
+                        className="text-gray-400 hover:text-red-500 p-1"
+                        aria-label="Remove item"
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
+                    
+                    <div className="flex justify-between items-center mt-2">
+                      <div className="flex items-center">
+                        <button 
+                          onClick={() => updateItemQuantity(item.restaurantId, item.id, -1)}
+                          className="p-1 text-gray-500 hover:bg-gray-100 rounded-full"
+                          disabled={item.quantity <= 1}
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                          </svg>
+                        </button>
+                        <span className="mx-2 text-sm font-medium">{item.quantity}</span>
+                        <button 
+                          onClick={() => updateItemQuantity(item.restaurantId, item.id, 1)}
+                          className="p-1 text-gray-500 hover:bg-gray-100 rounded-full"
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                          </svg>
+                        </button>
+                      </div>
+                      <p className="font-bold text-sm">
+                        ${(item.price * item.quantity).toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <button
-                  onClick={handleCheckout}
-                  className="w-full bg-amber-400 text-gray-800 font-bold py-2 rounded-lg">
-                  Checkout
-                </button>
+              ))
+            ) : (
+              <div className="text-gray-500 text-center py-8">
+                <ShoppingCart className="mx-auto mb-2 text-gray-400" size={24} />
+                <p>Your cart is empty</p>
               </div>
-            </>
-          ) : (
-            <p className="text-gray-500 text-center py-4">Your cart is empty</p>
+            )}
+          </div>
+          
+          {/* Cart Footer */}
+          {allCartItems.length > 0 && (
+            <div className="p-4 border-t border-gray-200 bg-gray-50">
+              <div className="flex justify-between mb-4">
+                <span className="font-medium">Subtotal:</span>
+                <span className="font-bold">${cartTotal.totalPrice.toFixed(2)}</span>
+              </div>
+              
+              <button
+                onClick={handleCheckout}
+                className="w-full bg-amber-400 text-gray-800 font-bold py-3 rounded-lg hover:bg-amber-500 transition-colors">
+                Proceed to Checkout
+              </button>
+            </div>
           )}
         </div>
       )}

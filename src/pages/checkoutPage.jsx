@@ -24,7 +24,7 @@ const CheckoutPage = () => {
   const [isProcessing, setIsProcessing] = useState(false)
   const [paymentError, setPaymentError] = useState("")
   const { isSignedIn, user } = useUser()
-  const { location, loading, error, userAddress } = useNearbyRestaurants()
+  const { loading, error, userAddress } = useNearbyRestaurants()
 
   // Card details state
   const [cardDetails, setCardDetails] = useState({
@@ -32,6 +32,7 @@ const CheckoutPage = () => {
     expiryDate: "",
     cvv: "",
   })
+  if (!user) return !isSignedIn
 
   // Get cart details
   const { totalItems, totalPrice } = currentRestaurantId
@@ -51,7 +52,7 @@ const CheckoutPage = () => {
     const { items: itemQuantities, menuCategories } = restaurantCarts[currentRestaurantId]
 
     if (menuCategories) {
-      Object.entries(menuCategories).forEach(([_, categoryItems]) => {
+      Object.entries(menuCategories).forEach(([, categoryItems]) => {
         categoryItems.forEach((item) => {
           const quantity = itemQuantities[item.id] || 0
           if (quantity > 0) {

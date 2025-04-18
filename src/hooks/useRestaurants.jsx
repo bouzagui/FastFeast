@@ -52,15 +52,15 @@ export default function useRestaurants() {
         setRestaurants(response.data || []);
         console.log("Fetched Restaurants:", response.data);
       } catch (err) {
-        setError("Failed to load restaurants");
+        setError("Failed to load restaurants", err);
       } finally {
         setLoading(false);
       }
     };
+    // console.log()
 
     fetchRestaurants();
   }, [userLocation]); // Fetch restaurants when user location updates
 
   return { restaurants, loading, error, userLocation };
 }
-
